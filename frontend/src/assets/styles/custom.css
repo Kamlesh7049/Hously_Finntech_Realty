@@ -1,0 +1,121 @@
+body {
+    background: linear-gradient(to bottom, aliceblue, rgb(241, 243, 244), rgb(251, 251, 252));
+    font-family: 'Roboto', sans-serif; 
+    margin: 0;
+    padding: 0;
+    
+}
+
+.home-carousel {
+    position: relative;
+    margin-bottom: 30px;
+  }
+  
+  .carousel-content {
+    max-width: 600px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+  }
+  
+  /* Media queries for responsiveness */
+  .carousel-container {
+    position: relative;
+  }
+  
+  .carousel-content {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    color: black;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 450px;
+    z-index: 10;
+  }
+  
+  .carousel-title {
+    color: #666666;
+    font-size: 28px;
+    font-family: Arial, sans-serif;
+    margin-bottom: 10px;
+  }
+  
+  .carousel-subtitle {
+    color: #181b30;
+    font-size: 26px;
+    font-family: Arial, sans-serif;
+    margin-bottom: 15px;
+  }
+  
+  .carousel-highlight {
+    font-weight: bold;
+    margin-top: 5px;
+    display: block;
+  }
+  
+  .blue-highlight {
+    color: #0e2ae3;
+  }
+  
+  .gold-highlight {
+    color: #ba8a07;
+  }
+  
+  .green-highlight {
+    color: #1f6e0f;
+  }
+  
+  .apply-btn {
+    background-color: #474EBB;
+    border-color: #474EBB;
+    padding: 8px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+  }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .carousel-content {
+      left: 5%;
+      right: 5%;
+      max-width: 90%;
+      padding: 15px;
+    }
+  
+    .carousel-title {
+      font-size: 22px;
+    }
+  
+    .carousel-subtitle {
+      font-size: 20px;
+    }
+  
+    .apply-btn {
+      padding: 6px 15px;
+      font-size: 16px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .carousel-content {
+      padding: 10px;
+    }
+  
+    .carousel-title {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+  
+    .carousel-subtitle {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+  
+    .apply-btn {
+      padding: 5px 5px;
+      font-size: 14px;
+    }
+  }
