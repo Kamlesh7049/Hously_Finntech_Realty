@@ -14,13 +14,13 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
     origin: process.env.FRONTEND_URI,
-    methods: ["POST", "GET", "PUT   ", "PUT", "PATCH"],
+    methods: ["POST", "GET", "PUT", "PUT", "PATCH"],
     credentials: true
 }))
 app.use(morgan("dev"))
 
 
-app.use('/api/v1/user', userRoute)
+app.use('/api/user', userRoute)
 
 
 export default app;
