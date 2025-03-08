@@ -2,7 +2,6 @@ import React from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FaPercentage, FaHome, FaBriefcase, FaBuilding, FaUserTie } from "react-icons/fa";
-
 import cbls from "../assets/images/cblscore.png";
 
 const PromoBanner = () => {
@@ -20,38 +19,39 @@ const PromoBanner = () => {
   );
 };
 
-const LoanOffers = () => {
-  const loanData = [
-    {
-      title: "Personal Loan",
-      description: "Paperless process at low rate",
-      rate: "10.49%",
-      color: "#d9534f",
-      icon: <FaUserTie size={40} />,
-    },
-    {
-      title: "Home Loan",
-      description: "Instant approval at lowest interest rates",
-      rate: "8.35%",
-      color: "#5e5ce6",
-      icon: <FaHome size={40} />,
-    },
-    {
-      title: "Loan Against Property",
-      description: "Lowest interest rate",
-      rate: "9.2%",
-      color: "#2980b9",
-      icon: <FaBuilding size={40} />,
-    },
-    {
-      title: "Business Loan",
-      description: "Interest rate starting from",
-      rate: "14%",
-      color: "#2d3436",
-      icon: <FaBriefcase size={40} />,
-    },
-  ];
+const loanData = [
+  {
+    title: "Personal Loan",
+    description: "Paperless process at low rate",
+    rate: "10.49%",
+    color: "#d9534f",
+    icon: <FaUserTie size={40} />,
+  },
+  {
+    title: "Home Loan",
+    description: "Instant approval at lowest interest rates",
+    rate: "8.35%",
+    color: "#5e5ce6",
+    icon: <FaHome size={40} />,
+  },
+  {
+    title: "Loan Against Property",
+    description: "Lowest interest rate",
+    rate: "9.2%",
+    color: "#2980b9",
+    icon: <FaBuilding size={40} />,
+  },
+  {
+    title: "Business Loan",
+    description: "Interest rate starting from",
+    rate: "14%",
+    color: "#2d3436",
+    icon: <FaBriefcase size={40} />,
+  },
+];
 
+
+const LoanOffers = () => {
   return (
     <Container className="my-5 text-center">
       <PromoBanner />
