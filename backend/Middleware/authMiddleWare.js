@@ -1,13 +1,14 @@
 
-import User from "../Model/userModel.js";
-import { ApiError } from "../utils/ApiError.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from 'jsonwebtoken'
+import User from '../Model/userModel.js';
+import { ApiError } from '../utils/ApiError.js';
+import { asyncHandler } from '../Utils/asyncHandler.js';
 
 const isLoggedIn = async (req, res, next) => {
     const { token } = req.cookies;
+    console.log(req.cookies)
     if (!token) {
-        return next(new Apperror("unauthenticated ,Please log in again", 400))
+        return next(new ApiError("unauthenticated ,Please log in again", 400))
     }
     const userDetails = await jwt.verify(token, process.env.SECRET)
     req.user = userDetails
@@ -21,13 +22,17 @@ const verifyJwt =
         async (req, res, next) => {
             try {
                 const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "")
+                console.log(token)
                 if (!token) {
                     throw new ApiError(400, "Unauthenticated request")
                 }
 
                 const decodedToken = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
 
-                const user = await User.findById(decodedToken._id).select("-password -refreshToken")
+                console.log(decodedToken.id)
+
+                const user = await User.findById(decodedToken.id).select("-password -refreshToken")
+                console.log("user", user)
 
                 if (!user) {
                     throw new ApiError(401, "Invalid access token ");
