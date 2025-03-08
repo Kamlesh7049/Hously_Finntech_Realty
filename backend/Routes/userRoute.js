@@ -8,5 +8,7 @@ const router = Router();
 router.route('/signup').post(register)
 router.route('/login').post(loginUser)
 router.route('/logout').get(verifyJwt, logOut)
+
+
 export default router;
 
