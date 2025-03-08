@@ -13,14 +13,14 @@ import userRoute from './Routes/userRoute.js'
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-    origin: process.env.FRONTEND_URI,
+    origin: '*',
     methods: ["POST", "GET", "PUT", "PUT", "PATCH"],
     credentials: true
 }))
 app.use(morgan("dev"))
 
 
-app.use('/api/user', userRoute)
+app.use('/auth/user', userRoute)
 
 
 export default app;
