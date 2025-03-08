@@ -26,7 +26,6 @@ const generateAccessAndRefreshTokens = async (userId) => {
     }
 };
 
-
 const register = asyncHandler(async (req, res) => {
     const { userName, password, email, mobileNumber, role } = req.body;
 
@@ -104,6 +103,7 @@ const logOut = asyncHandler(async (req, res) => {
         .clearCookie("refreshToken", cookieOption)
         .json(new ApiResponse(200, {}, "User logged out successfully"));
 });
+
 
 const refreshToken = asyncHandler(async (req, res) => {
     try {
