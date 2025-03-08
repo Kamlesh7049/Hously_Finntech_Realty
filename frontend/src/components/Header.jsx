@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { Navbar, Nav, Button, Container } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 
 import logo from "../assets/images/logo1.png";
+import { useDispatch } from "react-redux";
+import { createAccount } from "../Redux/Slice/authSlice";
 
 const Header = () => {
   const [show, setShow] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -17,6 +17,72 @@ const Header = () => {
     console.log("Admin Login Attempt:", { username, password });
     handleClose();
   };
+
+
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+
+  const [signupData, setSignupData] = useState({
+    userName: "",
+    email: "",
+    password: "",
+    mobileNumber: ""
+  });
+
+  function handleUserInput(e) {
+    const { name, value } = e.target;
+    setSignupData({
+      ...signupData,
+      [name]: value
+    })
+  }
+
+  async function createNewAccount(event) {
+    event.preventDefault();
+    if (!signupData.email || !signupData.password || !signupData.userName || !signupData.mobileNumber) {
+      toast.error("Please fill all the details");
+      return;
+    }
+
+    // checking name field length
+    if (signupData.userName.length < 5) {
+      toast.error("Name should be atleast of 5 characters")
+      return;
+    }
+    // checking valid email
+    // if (!isEmail(signupData.email)) {
+    //   toast.error("Invalid email id");
+    //   return;
+    // }
+    // checking password validation
+    // if (!isPassword(signupData.password)) {
+    //   toast.error("Password should be 6 - 16 character long with atleast a number and special character");
+    //   return;
+    // }
+
+
+    const formData = new FormData();
+    formData.append('userName', signupData.userName)
+    formData.append('email', signupData.email)
+    formData.append('password', signupData.password)
+    formData.append('avatar', signupData.mobileNumber)
+
+
+    // dispatch create account action
+    const response = await dispatch(createAccount(formData));
+    if (response?.payload?.success)
+      navigate("/");
+
+    setSignupData({
+      userName: "",
+      email: "",
+      password: "",
+      mobileNumber: ""
+    });
+  }
+
 
   return (
     <>
@@ -30,7 +96,7 @@ const Header = () => {
           {/* Toggle Button for Mobile View */}
           <Navbar.Toggle aria-controls="navbar-nav" />
           <Navbar.Collapse id="navbar-nav">
-            
+
             {/* Navigation Links with Space Between */}
             <Nav className="mx-auto fw-semibold">
               <Nav.Link as={Link} to="/home" className="mx-4">Home</Nav.Link>
@@ -48,58 +114,86 @@ const Header = () => {
       </Navbar>
 
       {/* Admin Login Modal */}
-      <Modal show={show} onHide={handleClose} animation={false}>
-        <Modal.Header closeButton>
-          <Modal.Title style={{ fontWeight: "bold", color: "#343a40" }}>Admin Login Area</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p style={{ marginBottom: "15px", color: "#6c757d" }}>
-            Admin Area for managing your website
-          </p>
-          <div className="form-group mb-3">
-            <label htmlFor="admin-username" style={{ fontWeight: "500" }}>Enter Admin:</label>
-            <input
-              type="text"
-              id="admin-username"
-              className="form-control"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter username"
-              style={{ marginTop: "5px" }}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="admin-password" style={{ fontWeight: "500" }}>Enter Password:</label>
-            <input
-              type="password"
-              id="admin-password"
-              className="form-control"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter password"
-              style={{ marginTop: "5px" }}
-            />
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose} style={{ borderRadius: "5px" }}>
-            Close
-          </Button>
-          <Button
-            variant="primary"
-            onClick={handleSubmit}
-            style={{
-              backgroundColor: "#007bff",
-              borderColor: "#007bff",
-              borderRadius: "5px",
-              padding: "8px 15px",
-              fontWeight: "bold",
-            }}
-          >
-            Login
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <form >
+        <Modal show={show} onHide={handleClose} animation={false}>
+          <Modal.Header closeButton>
+            <Modal.Title style={{ fontWeight: "bold", color: "#343a40" }}>Admin Login Area</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p style={{ marginBottom: "15px", color: "#6c757d" }}>
+              Admin Area for managing your website
+            </p>
+            <div className="form-group mb-3">
+              <label htmlFor="admin-username" style={{ fontWeight: "500" }}>Enter Username:</label>
+              <input
+                type="text"
+                className="form-control"
+                value={signupData.userName}
+                name="userName"
+                onChange={handleUserInput}
+                placeholder="Enter username"
+                style={{ marginTop: "5px" }}
+              />
+            </div>
+            <div className="form-group mb-3">
+              <label htmlFor="admin-username" style={{ fontWeight: "500" }}>Enter Email:</label>
+              <input
+                type="text"
+                className="form-control"
+                value={signupData.email}
+                name="email"
+                onChange={handleUserInput}
+                placeholder="Enter username"
+                style={{ marginTop: "5px" }}
+              />
+            </div>
+            <div className="form-group mb-3">
+              <label htmlFor="admin-username" style={{ fontWeight: "500" }}>Enter Mobile Number:</label>
+              <input
+                type="number"
+                className="form-control"
+                value={signupData.mobileNumber}
+                name="mobileNumber"
+                onChange={handleUserInput}
+                placeholder="Enter username"
+                style={{ marginTop: "5px" }}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="admin-password" style={{ fontWeight: "500" }}>Enter Password:</label>
+              <input
+                type="password"
+                className="form-control"
+                value={signupData.password}
+                onChange={handleUserInput}
+                name='password'
+                placeholder="Enter password"
+                style={{ marginTop: "5px" }}
+              />
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose} style={{ borderRadius: "5px" }}>
+              Close
+            </Button>
+            <Button
+              variant="primary"
+              onClick={createNewAccount}
+              style={{
+                backgroundColor: "#007bff",
+                borderColor: "#007bff",
+                borderRadius: "5px",
+                padding: "8px 15px",
+                fontWeight: "bold",
+              }}
+            >
+              Login
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </form>
+
+
     </>
   );
 };

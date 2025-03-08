@@ -11,18 +11,17 @@ import Contact from "./pages/Contact";
 function App() {
   return (
     <>
-    <Router>
-      {/* <Header /> */}
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} /> 
-          <Route path="home" element={<Home />} />
-          <Route path="bank" element={<BankOffers />} />
-          <Route path="calculator" element={<Calculators/>} />
-          <Route path="contact" element={<Contact/>} />
-        </Route>
-      </Routes>
-    </Router>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="home" element={<Home />} />
+            <Route path="bank" element={<BankOffers />} />
+            <Route path="calculator" element={<Calculators />} />
+            <Route path="contact" element={<Contact />} />
+          </Route>
+        </Routes>
+      </Router>
     </>
   );
 }
