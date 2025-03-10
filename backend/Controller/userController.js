@@ -6,7 +6,8 @@ import jwt from 'jsonwebtoken';
 
 const cookieOption = {
     httpOnly: true,
-    secure: true
+    secure: true,
+    default:true
 };
 
 const generateAccessAndRefreshTokens = async (userId) => {

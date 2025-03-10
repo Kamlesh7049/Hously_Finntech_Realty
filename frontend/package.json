@@ -3,11 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-<<<<<<< HEAD
   "proxy": "https://hously-finntech-realty.vercel.app/",
-=======
-  "proxy": "https://hously-finntech-realty-k3jb.vercel.app",
->>>>>>> 8f3bd75916c96a763920148a9275a25b6fdb541e
   "scripts": {
     "dev": "vite",
     "build": "vite build",
