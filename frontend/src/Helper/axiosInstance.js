@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = " https://hously-finntech-realty-k3jb.vercel.app/api/v1";
+const BASE_URL = "http://localhost:4000";
 
 const axiosInstance = axios.create();
 

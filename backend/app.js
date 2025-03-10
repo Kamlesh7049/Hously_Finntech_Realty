@@ -3,6 +3,10 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 
+import { config } from "dotenv";
+
+config()
+
 const app = express()
 
 // File import
@@ -20,7 +24,7 @@ app.use(cors({
 app.use(morgan("dev"))
 
 
-app.use('/api/user', userRoute)
+app.use('/auth/user', userRoute)
 
 
 export default app;
