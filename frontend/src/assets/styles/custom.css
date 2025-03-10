@@ -5,3 +5,280 @@ body {
     padding: 0;
 }
 
+
+/* bhavesh */
+/* kamlesh */
+
+/* HomeLoanCalculator.css */
+.home-loan-calculator-container {
+  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.1);
+}
+
+.home-loan-calculator-container h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 2em;
+  letter-spacing: 0.4px;
+}
+
+.home-loan-calculator-container .calculator-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 20px;
+}
+
+.home-loan-calculator-container .input-panel,
+.home-loan-calculator-container .emi-panel,
+.home-loan-calculator-container .payment-breakdown-panel {
+  width: 32%;
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-loan-calculator-container .input-panel:hover,
+.home-loan-calculator-container .emi-panel:hover,
+.home-loan-calculator-container .payment-breakdown-panel:hover {
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.1);
+}
+
+.home-loan-calculator-container h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.4em;
+  text-align: left;
+}
+
+.home-loan-calculator-container .input-group {
+  margin-bottom: 25px;
+}
+
+.home-loan-calculator-container .input-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+  font-weight: 500;
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+.home-loan-calculator-container .input-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+}
+
+.home-loan-calculator-container .input-group input[type='range'] {
+  width: 100%;
+  height: 6px;
+  border-radius: 4px;
+  background: #ddd;
+  outline: none;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-bottom: 10px; /* Add margin below the range input */
+}
+
+.home-loan-calculator-container .input-group input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background-color: #007bff;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.home-loan-calculator-container .input-group input[type='range']::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background-color: #007bff;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.home-loan-calculator-container .input-value {
+  font-size: 1em;
+  color: #333;
+  font-weight: 400;
+  min-width: 70px;
+  text-align: right;
+}
+
+.home-loan-calculator-container .range-labels {
+  display: flex;
+  justify-content: space-between;
+  color: #777;
+  font-size: 0.8em;
+}
+
+/* EMI Panel Styles */
+.home-loan-calculator-container .emi-panel {
+  text-align: center;
+  background-color: #f2f2f2;
+  border: 1px solid #e1f0ff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-loan-calculator-container .emi-details {
+  margin-bottom: 0;
+}
+
+.home-loan-calculator-container .emi-value {
+  font-size: 2.5em;
+  color: #000;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.home-loan-calculator-container .emi-description {
+  color: #777;
+  font-size: 0.9em;
+  text-align: center;
+}
+
+/* Payment Breakdown Panel Styles */
+.home-loan-calculator-container .payment-breakdown-panel {
+  text-align: center; /* Center align the whole panel */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+}
+
+.home-loan-calculator-container .chart-container {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 15px;
+}
+
+.home-loan-calculator-container .breakdown-details {
+  text-align: left; /* Align text within breakdown-details to the left */
+}
+
+.home-loan-calculator-container .breakdown-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  color: #555;
+  align-items: center;
+  font-size: 0.9em;
+}
+
+.home-loan-calculator-container .item-label {
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.home-loan-calculator-container .item-value {
+  color: #333;
+  font-weight: 400;
+}
+
+.home-loan-calculator-container .color-indicator {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  margin-right: 4px;
+  border-radius: 2px;
+}
+
+.home-loan-calculator-container .view-schedule-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  display: block;
+  margin: 15px auto 0; /* Center the button */
+  text-align: center;
+}
+
+.home-loan-calculator-container .view-schedule-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 992px) {
+  .home-loan-calculator-container {
+      padding: 20px;
+  }
+
+  .home-loan-calculator-container h1 {
+      font-size: 1.8em;
+      margin-bottom: 20px;
+  }
+
+  .home-loan-calculator-container .calculator-wrapper {
+      flex-direction: column;
+      gap: 15px;
+  }
+
+  .home-loan-calculator-container .input-panel,
+  .home-loan-calculator-container .emi-panel,
+  .home-loan-calculator-container .payment-breakdown-panel {
+      width: 100%;
+      padding: 20px;
+  }
+
+  .home-loan-calculator-container h2 {
+      font-size: 1.3em;
+      margin-bottom: 15px;
+  }
+}
+
+/* New CSS to Arrange Elements */
+.home-loan-calculator-container .input-group label {
+  display: block; /* Ensures the label takes full width */
+  margin-bottom: 5px; /* Adds some space between the label and the input */
+}
+
+.home-loan-calculator-container .input-group input[type='range'] {
+  margin-bottom: 10px; /* Adds space between the input and the labels/value */
+}
+
+.home-loan-calculator-container .input-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.home-loan-calculator-container .range-labels {
+  display: flex;
+  justify-content: space-between;
+  color: #777;
+  font-size: 0.8em;
+  flex-grow: 1; /* Allows labels to fill the space */
+}
+
+.home-loan-calculator-container .input-value {
+  text-align: right;
+  min-width: 80px; /* Ensures the value doesn't wrap */
+}
+
+/* KAMLESH */

@@ -9,6 +9,8 @@ const cookieOption = {
     secure: true
 };
 
+// ok
+
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
         const user = await User.findById(userId);
