@@ -3,6 +3,10 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 
+import { config } from "dotenv";
+
+config()
+
 const app = express()
 
 // File import
@@ -13,7 +17,7 @@ import userRoute from './Routes/userRoute.js'
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
-    origin: '*',
+    origin: process.env.FRONTEND_URI,
     methods: ["POST", "GET", "PUT", "PUT", "PATCH"],
     credentials: true
 }))
