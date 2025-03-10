@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 const cookieOption = {
     httpOnly: true,
     secure: true,
-    default:true
+    default: true
 };
 
 // ok
