@@ -18,37 +18,39 @@ const Header = () => {
     handleClose();
   };
 
-
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
 
   const [signupData, setSignupData] = useState({
     userName: "",
     email: "",
     password: "",
-    mobileNumber: ""
+    mobileNumber: "",
   });
 
   function handleUserInput(e) {
     const { name, value } = e.target;
     setSignupData({
       ...signupData,
-      [name]: value
-    })
+      [name]: value,
+    });
   }
 
   async function createNewAccount(event) {
     event.preventDefault();
-    if (!signupData.email || !signupData.password || !signupData.userName || !signupData.mobileNumber) {
+    if (
+      !signupData.email ||
+      !signupData.password ||
+      !signupData.userName ||
+      !signupData.mobileNumber
+    ) {
       toast.error("Please fill all the details");
       return;
     }
 
     // checking name field length
     if (signupData.userName.length < 5) {
-      toast.error("Name should be atleast of 5 characters")
+      toast.error("Name should be atleast of 5 characters");
       return;
     }
     // checking valid email
@@ -62,51 +64,85 @@ const Header = () => {
     //   return;
     // }
 
-
     const formData = new FormData();
-    formData.append('userName', signupData.userName)
-    formData.append('email', signupData.email)
-    formData.append('password', signupData.password)
-    formData.append('mobileNumber', signupData.mobileNumber)
-
+    formData.append("userName", signupData.userName);
+    formData.append("email", signupData.email);
+    formData.append("password", signupData.password);
+    formData.append("mobileNumber", signupData.mobileNumber);
 
     // dispatch create account action
     const response = await dispatch(createAccount(formData));
-    if (response?.payload?.success)
-      navigate("/");
+    if (response?.payload?.success) navigate("/");
 
     setSignupData({
       userName: "",
       email: "",
       password: "",
-      mobileNumber: ""
+      mobileNumber: "",
     });
   }
 
-
   return (
     <>
-      <Navbar expand="lg" className="bg-light py-3 shadow-sm" style={{ position: "sticky", top: 0, zIndex: 999 }}>
+      <Navbar
+        expand="lg"
+        className="bg-light py-3 shadow-sm"
+        style={{ position: "sticky", top: 0, zIndex: 999 }}
+      >
         <Container>
           {/* Logo */}
+          
           <Navbar.Brand as={Link} to="/">
             <img src={logo} alt="Hously" width="120" />
           </Navbar.Brand>
 
           {/* Toggle Button for Mobile View */}
+
           <Navbar.Toggle aria-controls="navbar-nav" />
           <Navbar.Collapse id="navbar-nav">
 
             {/* Navigation Links with Space Between */}
             <Nav className="mx-auto fw-semibold">
-              <Nav.Link as={Link} to="/home" className="mx-4">Home</Nav.Link>
-              <Nav.Link as={Link} to="/bank" className="mx-4">Bank Offers</Nav.Link>
-              <Nav.Link as={Link} to="/calculator" className="mx-4">Calculators</Nav.Link>
-              <Nav.Link as={Link} to="/contact" className="mx-4">Contact</Nav.Link>
+              <Nav.Link
+                as={Link}
+                to="/home"
+                className="nav-link-custom mx-4"
+                style={{ fontSize: "18px", fontWeight: "bold" }} 
+              >
+                Home
+              </Nav.Link>
+              <Nav.Link
+                as={Link}
+                to="/bank"
+                className="nav-link-custom mx-4"
+                style={{ fontSize: "18px", fontWeight: "bold" }} 
+              >
+                Bank Offers
+              </Nav.Link>
+              <Nav.Link
+                as={Link}
+                to="/calculator"
+                className="nav-link-custom mx-4"
+                style={{ fontSize: "18px", fontWeight: "bold" }} 
+              >
+                Calculators
+              </Nav.Link>
+              <Nav.Link
+                as={Link}
+                to="/contact"
+                className="nav-link-custom mx-4"
+                style={{ fontSize: "18px", fontWeight: "bold" }} 
+              >
+                Contact
+              </Nav.Link>
             </Nav>
 
             {/* Login Button */}
-            <Button variant="dark" className="ms-3 px-4 rounded-pill" onClick={handleShow}>
+            <Button
+              variant="dark"
+              className="ms-3 px-4 rounded-pill"
+              onClick={handleShow}
+            >
               Login
             </Button>
           </Navbar.Collapse>
@@ -114,17 +150,21 @@ const Header = () => {
       </Navbar>
 
       {/* Admin Login Modal */}
-      <form >
+      <form>
         <Modal show={show} onHide={handleClose} animation={false}>
           <Modal.Header closeButton>
-            <Modal.Title style={{ fontWeight: "bold", color: "#343a40" }}>Admin Login Area</Modal.Title>
+            <Modal.Title style={{ fontWeight: "bold", color: "#343a40" }}>
+              Admin Login Area
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <p style={{ marginBottom: "15px", color: "#6c757d" }}>
               Admin Area for managing your website
             </p>
             <div className="form-group mb-3">
-              <label htmlFor="admin-username" style={{ fontWeight: "500" }}>Enter Username:</label>
+              <label htmlFor="admin-username" style={{ fontWeight: "500" }}>
+                Enter Username:
+              </label>
               <input
                 type="text"
                 className="form-control"
@@ -136,7 +176,9 @@ const Header = () => {
               />
             </div>
             <div className="form-group mb-3">
-              <label htmlFor="admin-username" style={{ fontWeight: "500" }}>Enter Email:</label>
+              <label htmlFor="admin-username" style={{ fontWeight: "500" }}>
+                Enter Email:
+              </label>
               <input
                 type="text"
                 className="form-control"
@@ -148,7 +190,9 @@ const Header = () => {
               />
             </div>
             <div className="form-group mb-3">
-              <label htmlFor="admin-username" style={{ fontWeight: "500" }}>Enter Mobile Number:</label>
+              <label htmlFor="admin-username" style={{ fontWeight: "500" }}>
+                Enter Mobile Number:
+              </label>
               <input
                 type="number"
                 className="form-control"
@@ -160,20 +204,26 @@ const Header = () => {
               />
             </div>
             <div className="form-group">
-              <label htmlFor="admin-password" style={{ fontWeight: "500" }}>Enter Password:</label>
+              <label htmlFor="admin-password" style={{ fontWeight: "500" }}>
+                Enter Password:
+              </label>
               <input
                 type="password"
                 className="form-control"
                 value={signupData.password}
                 onChange={handleUserInput}
-                name='password'
+                name="password"
                 placeholder="Enter password"
                 style={{ marginTop: "5px" }}
               />
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose} style={{ borderRadius: "5px" }}>
+            <Button
+              variant="secondary"
+              onClick={handleClose}
+              style={{ borderRadius: "5px" }}
+            >
               Close
             </Button>
             <Button
@@ -192,8 +242,6 @@ const Header = () => {
           </Modal.Footer>
         </Modal>
       </form>
-
-
     </>
   );
 };
