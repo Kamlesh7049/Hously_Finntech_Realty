@@ -67,7 +67,7 @@ const Header = () => {
     formData.append('userName', signupData.userName)
     formData.append('email', signupData.email)
     formData.append('password', signupData.password)
-    formData.append('avatar', signupData.mobileNumber)
+    formData.append('mobileNumber', signupData.mobileNumber)
 
 
     // dispatch create account action
