@@ -281,4 +281,32 @@ body {
   min-width: 80px; /* Ensures the value doesn't wrap */
 }
 
-/* KAMLESH */
+
+/* header nav element hover css  */
+
+.nav-link-custom {
+  position: relative;
+  text-decoration: none;
+  color: black; /* Default text color */
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-link-custom::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -3px;
+  width: 0%;
+  height: 2px;
+  background-color: blue;
+  transition: all 0.3s ease-in-out;
+  transform: translateX(-50%);
+}
+
+.nav-link-custom:hover {
+  color: blue; /* Change text color on hover */
+}
+
+.nav-link-custom:hover::after {
+  width: 100%;
+}
