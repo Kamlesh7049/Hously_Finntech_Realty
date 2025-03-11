@@ -11,6 +11,7 @@ const app = express()
 
 // File import
 import userRoute from './Routes/userRoute.js'
+import cibilRoute from './Routes/CibilScoreRoute.js'
 
 
 // Dependancy uses
@@ -25,6 +26,7 @@ app.use(morgan("dev"))
 
 
 app.use('/auth/user', userRoute)
+app.use('/auth/cibil', cibilRoute)
 
 
 export default app;
