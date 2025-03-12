@@ -4,17 +4,23 @@ const Footer = () => {
   const footerStyle = {
     backgroundColor: "#001f3f", // Dark Blue Background
     color: "#fff",
-    padding: "40px 80px", // Added left & right padding
+    padding: "40px 10%", // Adjusted padding for responsiveness
     textAlign: "left",
     fontFamily: "Arial, sans-serif",
   };
 
   const containerStyle = {
-    display: "grid",
-    gridTemplateColumns: "repeat(4, 1fr)", // 4 Equal Columns
-    gap: "40px",
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: "20px",
     borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
     paddingBottom: "20px",
+  };
+
+  const sectionStyle = {
+    flex: "1",
+    minWidth: "200px", // Ensures proper layout on smaller screens
   };
 
   const sectionTitleStyle = {
@@ -46,7 +52,7 @@ const Footer = () => {
     <footer style={footerStyle}>
       <div style={containerStyle}>
         {/* Quick Links Section */}
-        <div>
+        <div style={sectionStyle}>
           <div style={sectionTitleStyle}>Quick Links</div>
           <ul style={listStyle}>
             <li style={listItemStyle}>Home</li>
@@ -57,7 +63,7 @@ const Footer = () => {
         </div>
 
         {/* Legal & Policies Section */}
-        <div>
+        <div style={sectionStyle}>
           <div style={sectionTitleStyle}>Legal & Policies</div>
           <ul style={listStyle}>
             <li style={listItemStyle}>Terms & Conditions</li>
@@ -67,7 +73,7 @@ const Footer = () => {
         </div>
 
         {/* Support Section */}
-        <div>
+        <div style={sectionStyle}>
           <div style={sectionTitleStyle}>Support</div>
           <ul style={listStyle}>
             <li style={listItemStyle}>FAQs</li>
@@ -77,7 +83,7 @@ const Footer = () => {
         </div>
 
         {/* Join Us Section */}
-        <div>
+        <div style={sectionStyle}>
           <div style={sectionTitleStyle}>Join Us</div>
           <ul style={listStyle}>
             <li style={listItemStyle}>Refer & Earn</li>
