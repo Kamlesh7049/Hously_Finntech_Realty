@@ -7,7 +7,9 @@ import Contact from "./pages/Contact";
 import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import EmiCalculator from "./pages/EmiCalculator";
-import ForecloseCalculator from "./pages/ForecloseCalculator";
+// import ForecloseCalculator from "./pages/ForecloseCalculator";
+import ForecloseCalculator from "./pages/ForeCloseCalculator";  // If the actual file name is different
+
 // Okk
 
 
