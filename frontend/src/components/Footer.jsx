@@ -1,101 +1,85 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import { FaInstagram, FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer style={footerStyle}>
+    <footer style={{ backgroundColor: "#343a40", color: "#ffffff", padding: "40px 0" }}>
       <Container>
         <Row>
-          {/* About Section */}
-          <Col md={3}>
-            <h5>About</h5>
-            <p>
-              C305, 3rd Floor, Shubhchandra, Rahati, Pune, 411017, Maharashtra, India
-            </p>
-            <p>
-              Toll-free number: <a href="tel:18002083344" style={linkStyle}>1800 208 3344</a>
-            </p>
-            <p>
-              Write to us at:{" "}
-              <a href="mailto:connect@huslyfintechrealty.com" style={linkStyle}>
-                connect@huslyfintechrealty.com
-              </a>
-            </p>
-            <h6>Keep in Touch</h6>
-            <div className="d-flex gap-3">
-              <a href="#" style={iconStyle}>
-                <FaInstagram />
-              </a>
-              <a href="#" style={iconStyle}>
-                <FaFacebookF />
-              </a>
-              <a href="#" style={iconStyle}>
-                <FaLinkedinIn />
-              </a>
-            </div>
-          </Col>
-
-          {/* FAQs Section */}
-          <Col md={3}>
-            <h5>FAQs</h5>
-            <p>
-              Looking for answers about loans? Urban Money FAQs cover home
-              loans, personal loans, business loans, and loans against property
-              to help you make informed decisions.
-            </p>
-          </Col>
-
-          {/* Support Section */}
-          <Col md={3}>
-            <h5>Support</h5>
-            <ul className="list-unstyled">
-              <li>Help Center</li>
-              <li>FAQs</li>
-              <li>Contact Us</li>
-              <li>Live Chat</li>
-              <li>Report an Issue</li>
+          {/* Quick Links */}
+          <Col md={2}>
+            <h5>Quick Links</h5>
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              <li><a href="/" style={{ color: "#ffffff", textDecoration: "none" }}>Home</a></li>
+              <li><a href="/about" style={{ color: "#ffffff", textDecoration: "none" }}>About Us</a></li>
+              <li><a href="/loan-services" style={{ color: "#ffffff", textDecoration: "none" }}>Loan Services</a></li>
+              <li><a href="/contact" style={{ color: "#ffffff", textDecoration: "none" }}>Contact Us</a></li>
             </ul>
           </Col>
 
-          {/* Contact Us Section */}
-          <Col md={3}>
+          {/* Legal & Policies */}
+          <Col md={2}>
+            <h5>Legal & Policies</h5>
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              <li><a href="/terms" style={{ color: "#ffffff", textDecoration: "none" }}>Terms & Conditions</a></li>
+              <li><a href="/privacy" style={{ color: "#ffffff", textDecoration: "none" }}>Privacy Policy</a></li>
+              <li><a href="/disclaimer" style={{ color: "#ffffff", textDecoration: "none" }}>Disclaimer</a></li>
+            </ul>
+          </Col>
+
+          {/* Support */}
+          <Col md={2}>
+            <h5>Support</h5>
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              <li><a href="/faqs" style={{ color: "#ffffff", textDecoration: "none" }}>FAQs</a></li>
+              <li><a href="/support" style={{ color: "#ffffff", textDecoration: "none" }}>Customer Support</a></li>
+              <li><a href="/bank-partners" style={{ color: "#ffffff", textDecoration: "none" }}>Bank Partner Details</a></li>
+            </ul>
+          </Col>
+
+          {/* Join Us */}
+          <Col md={2}>
+            <h5>Join Us</h5>
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              <li><a href="/refer-earn" style={{ color: "#ffffff", textDecoration: "none" }}>Refer & Earn</a></li>
+              <li><a href="/business-partner" style={{ color: "#ffffff", textDecoration: "none" }}>Join as Business Partner</a></li>
+            </ul>
+          </Col>
+
+          {/* Loan Services Pages */}
+          <Col md={2}>
+            <h5>Loan Services</h5>
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              <li><a href="/eligibility" style={{ color: "#ffffff", textDecoration: "none" }}>Eligibility Criteria</a></li>
+              <li><a href="/documents" style={{ color: "#ffffff", textDecoration: "none" }}>Required Documents</a></li>
+              <li><a href="/process" style={{ color: "#ffffff", textDecoration: "none" }}>Step-by-Step Process</a></li>
+              <li><a href="/interest-rates" style={{ color: "#ffffff", textDecoration: "none" }}>Interest Rates & Govt. Charges</a></li>
+              <li><a href="/benefits" style={{ color: "#ffffff", textDecoration: "none" }}>Benefits of Loan Type</a></li>
+              <li><a href="/loan-faqs" style={{ color: "#ffffff", textDecoration: "none" }}>FAQs Related to Loan</a></li>
+            </ul>
+          </Col>
+
+          {/* Contact Us */}
+          <Col md={2}>
             <h5>Contact Us</h5>
-            <p>
-              We would love to hear from you! Call us on our India Toll Free
-              Number: <a href="tel:18002083344" style={linkStyle}>1800 208 3344</a> or fill the
-              form.
-            </p>
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              <li><a href="/contact-form" style={{ color: "#ffffff", textDecoration: "none" }}>Inquiry Form</a></li>
+              <li><a href="/address" style={{ color: "#ffffff", textDecoration: "none" }}>Office Address</a></li>
+              <li><a href="/map" style={{ color: "#ffffff", textDecoration: "none" }}>Google Map Integration</a></li>
+              <li><a href="/support-details" style={{ color: "#ffffff", textDecoration: "none" }}>Customer Support Details</a></li>
+            </ul>
           </Col>
         </Row>
 
-        {/* Footer Bottom Section */}
-        <div className="text-center py-3 border-top mt-3">
-          © 2025 <a href="https://www.huslyfintechrealty.com" style={linkStyle}>
-            www.huslyfintechrealty.com
-          </a>. All rights reserved.
-        </div>
+        {/* Copyright */}
+        <Row className="mt-4 text-center">
+          <Col>
+            <p className="mb-0">&copy; {new Date().getFullYear()} Hously Fintech Realty. All Rights Reserved.</p>
+          </Col>
+        </Row>
       </Container>
     </footer>
   );
-};
-
-// ✅ Footer Styles
-const footerStyle = {
-  backgroundColor: "#333",
-  color: "#fff",
-  padding: "20px 0",
-  fontFamily: "Arial, sans-serif",
-};
-
-const linkStyle = {
-  color: "#fff",
-  textDecoration: "none",
-};
-
-const iconStyle = {
-  color: "#fff",
-  fontSize: "1.5rem",
 };
 
 export default Footer;
