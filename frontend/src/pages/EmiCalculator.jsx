@@ -6,7 +6,7 @@ import { Chart, ArcElement } from 'chart.js';
 
 Chart.register(ArcElement);
 
-function HomeLoanCalculator() {
+function EmiCalculator() {
     const [loanAmount, setLoanAmount] = useState(1000000);
     const [loanTenure, setLoanTenure] = useState(20);
     const [interestRate, setInterestRate] = useState(6.5);
@@ -14,6 +14,7 @@ function HomeLoanCalculator() {
     const [principalAmount, setPrincipalAmount] = useState(0);
     const [interestPayable, setInterestPayable] = useState(0);
     const [totalAmountPayable, setTotalAmountPayable] = useState(0);
+    const [showEmiSchedule, setShowEmiSchedule] = useState(false);
 
     useEffect(() => {
         calculateEMI();
@@ -42,6 +43,34 @@ function HomeLoanCalculator() {
 
     const handleInterestRateChange = (event) => {
         setInterestRate(Number(event.target.value));
+    };
+
+    const toggleEmiSchedule = () => {
+        setShowEmiSchedule(!showEmiSchedule);
+    };
+
+    const generateEmiSchedule = () => {
+        const monthlyInterestRate = interestRate / 12 / 100;
+        const numberOfPayments = loanTenure * 12;
+        let balance = loanAmount;
+        const schedule = [];
+
+        for (let i = 1; i <= numberOfPayments; i++) {
+            const interestForMonth = balance * monthlyInterestRate;
+            const principalForMonth = emi - interestForMonth;
+            balance -= principalForMonth;
+
+            schedule.push({
+                month: i,
+                year: Math.ceil(i / 12),
+                emi: emi,
+                principal: principalForMonth,
+                interest: interestForMonth,
+                balance: balance > 0 ? balance : 0
+            });
+        }
+
+        return schedule;
     };
 
     const chartData = {
@@ -139,9 +168,43 @@ Make informed property investment decisions with confidence using our trusted EM
                         </div>
                     </div>
 
-                    <button className="view-schedule-button">View EMI Schedule →</button>
+                    <button className="view-schedule-button" onClick={toggleEmiSchedule}>
+                        {showEmiSchedule ? "Hide EMI Schedule ↑" : "View EMI Schedule →"}
+                    </button>
                 </div>
             </div>
+
+            {showEmiSchedule && (
+                <div className="emi-schedule-section">
+                    <h2>EMI Payment Schedule</h2>
+                    <div className="table-responsive">
+                        <table className="emi-schedule-table">
+                            <thead>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>Year</th>
+                                    <th>Principal (₹)</th>
+                                    <th>Interest (₹)</th>
+                                    <th>EMI (₹)</th>
+                                    <th>Balance (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {generateEmiSchedule().map((row, index) => (
+                                    <tr key={index}>
+                                        <td>{row.month}</td>
+                                        <td>{row.year}</td>
+                                        <td>{Math.round(row.principal).toLocaleString()}</td>
+                                        <td>{Math.round(row.interest).toLocaleString()}</td>
+                                        <td>{Math.round(row.emi).toLocaleString()}</td>
+                                        <td>{Math.round(row.balance).toLocaleString()}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
@@ -174,4 +237,4 @@ function InputGroup({ label, id, min, max, step, value, onChange, suffix }) {
     );
 }
 
-export default HomeLoanCalculator;
+export default EmiCalculator;

@@ -5,6 +5,7 @@ import BankOffers from "../pages/BankOffers";
 import ban1 from "../assets/images/ban1.jpg";
 import ban2 from "../assets/images/ban1.jpg";
 import ban3 from "../assets/images/ban3.jpg";
+import CalculatorSection from "./CalculatorSection";
 
 
 const Home = () => {
@@ -68,6 +69,7 @@ const Home = () => {
         </Carousel.Item>
       </Carousel>
       <BankOffers />
+      <CalculatorSection/>
     </>
   )
 }
