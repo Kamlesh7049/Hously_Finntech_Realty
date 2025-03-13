@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { checkCibilScore } from "../Controller/cibilScoreCheckController";
+import { checkCibilScore } from "../Controller/cibilScoreCheckController.js";
 
 
 const router = Router()
