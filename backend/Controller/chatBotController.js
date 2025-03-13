@@ -29,6 +29,9 @@ const chatbotResponse = async (req, res) => {
 
 
 
+// Provide the proper api key 
+
+
 import { OpenAI } from "openai";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });

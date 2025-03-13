@@ -1,101 +1,103 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import { FaInstagram, FaFacebookF, FaLinkedinIn } from "react-icons/fa";
 
 const Footer = () => {
+  const footerStyle = {
+    backgroundColor: "#001f3f", // Dark Blue Background
+    color: "#fff",
+    padding: "40px 10%", // Adjusted padding for responsiveness
+    textAlign: "left",
+    fontFamily: "Arial, sans-serif",
+  };
+
+  const containerStyle = {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: "20px",
+    borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+    paddingBottom: "20px",
+  };
+
+  const sectionStyle = {
+    flex: "1",
+    minWidth: "200px", // Ensures proper layout on smaller screens
+  };
+
+  const sectionTitleStyle = {
+    fontWeight: "bold",
+    fontSize: "18px",
+    marginBottom: "10px",
+    color: "#f8f9fa",
+  };
+
+  const listStyle = {
+    listStyleType: "none",
+    padding: 0,
+  };
+
+  const listItemStyle = {
+    marginBottom: "5px",
+    color: "#ddd",
+    cursor: "pointer",
+  };
+
+  const copyrightStyle = {
+    textAlign: "center",
+    marginTop: "20px",
+    fontSize: "14px",
+    color: "#bbb",
+  };
+
   return (
     <footer style={footerStyle}>
-      <Container>
-        <Row>
-          {/* About Section */}
-          <Col md={3}>
-            <h5>About</h5>
-            <p>
-              C305, 3rd Floor, Shubhchandra, Rahati, Pune, 411017, Maharashtra, India
-            </p>
-            <p>
-              Toll-free number: <a href="tel:18002083344" style={linkStyle}>1800 208 3344</a>
-            </p>
-            <p>
-              Write to us at:{" "}
-              <a href="mailto:connect@huslyfintechrealty.com" style={linkStyle}>
-                connect@huslyfintechrealty.com
-              </a>
-            </p>
-            <h6>Keep in Touch</h6>
-            <div className="d-flex gap-3">
-              <a href="#" style={iconStyle}>
-                <FaInstagram />
-              </a>
-              <a href="#" style={iconStyle}>
-                <FaFacebookF />
-              </a>
-              <a href="#" style={iconStyle}>
-                <FaLinkedinIn />
-              </a>
-            </div>
-          </Col>
-
-          {/* FAQs Section */}
-          <Col md={3}>
-            <h5>FAQs</h5>
-            <p>
-              Looking for answers about loans? Urban Money FAQs cover home
-              loans, personal loans, business loans, and loans against property
-              to help you make informed decisions.
-            </p>
-          </Col>
-
-          {/* Support Section */}
-          <Col md={3}>
-            <h5>Support</h5>
-            <ul className="list-unstyled">
-              <li>Help Center</li>
-              <li>FAQs</li>
-              <li>Contact Us</li>
-              <li>Live Chat</li>
-              <li>Report an Issue</li>
-            </ul>
-          </Col>
-
-          {/* Contact Us Section */}
-          <Col md={3}>
-            <h5>Contact Us</h5>
-            <p>
-              We would love to hear from you! Call us on our India Toll Free
-              Number: <a href="tel:18002083344" style={linkStyle}>1800 208 3344</a> or fill the
-              form.
-            </p>
-          </Col>
-        </Row>
-
-        {/* Footer Bottom Section */}
-        <div className="text-center py-3 border-top mt-3">
-          © 2025 <a href="https://www.huslyfintechrealty.com" style={linkStyle}>
-            www.huslyfintechrealty.com
-          </a>. All rights reserved.
+      <div style={containerStyle}>
+        {/* Quick Links Section */}
+        <div style={sectionStyle}>
+          <div style={sectionTitleStyle}>Quick Links</div>
+          <ul style={listStyle}>
+            <li style={listItemStyle}>Home</li>
+            <li style={listItemStyle}>About Us</li>
+            <li style={listItemStyle}>Loan Services</li>
+            <li style={listItemStyle}>Contact Us</li>
+          </ul>
         </div>
-      </Container>
+
+        {/* Legal & Policies Section */}
+        <div style={sectionStyle}>
+          <div style={sectionTitleStyle}>Legal & Policies</div>
+          <ul style={listStyle}>
+            <li style={listItemStyle}>Terms & Conditions</li>
+            <li style={listItemStyle}>Privacy Policy</li>
+            <li style={listItemStyle}>Disclaimer</li>
+          </ul>
+        </div>
+
+        {/* Support Section */}
+        <div style={sectionStyle}>
+          <div style={sectionTitleStyle}>Support</div>
+          <ul style={listStyle}>
+            <li style={listItemStyle}>FAQs</li>
+            <li style={listItemStyle}>Customer Support</li>
+            <li style={listItemStyle}>Bank Partner Details</li>
+          </ul>
+        </div>
+
+        {/* Join Us Section */}
+        <div style={sectionStyle}>
+          <div style={sectionTitleStyle}>Join Us</div>
+          <ul style={listStyle}>
+            <li style={listItemStyle}>Refer & Earn</li>
+            <li style={listItemStyle}>Join as Business Partner</li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Copyright Section */}
+      <div style={copyrightStyle}>
+        © {new Date().getFullYear()} Hously Fintech Realty. All Rights Reserved.
+      </div>
     </footer>
   );
-};
-
-// ✅ Footer Styles
-const footerStyle = {
-  backgroundColor: "#333",
-  color: "#fff",
-  padding: "20px 0",
-  fontFamily: "Arial, sans-serif",
-};
-
-const linkStyle = {
-  color: "#fff",
-  textDecoration: "none",
-};
-
-const iconStyle = {
-  color: "#fff",
-  fontSize: "1.5rem",
 };
 
 export default Footer;
