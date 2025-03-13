@@ -75,24 +75,24 @@ function ForecloseCalculator() {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-4" style={{ maxWidth: '900px' }}> {/* Reduced margin-top and added max-width */}
       <div className="card shadow-lg" style={{ backgroundColor: '#f8f9fa' }}>
-        <div className="card-body">
-          <h2 className="text-center mb-4" style={{ color: '#007BFF' }}>
+        <div className="card-body p-3"> {/* Reduced padding */}
+          <h5 className="text-center mb-3" style={{ color: '#007BFF', fontSize: '1.2rem' }}> {/* Reduced margin and font size */}
             Loan Foreclosure Calculator
-          </h2>
-          <p className="text-center text-muted">
+          </h5>
+          <p className="text-center text-muted" style={{ fontSize: '0.8rem', marginBottom: '0.5rem' }}> {/* Reduced font size and margin */}
             A loan foreclosure calculator is a valuable tool for anyone with a loan. It helps you to
             understand the costs and benefits of paying off your loan sooner rather than later.
           </p>
 
           <div className="row">
             <div className="col-md-4 d-flex">
-              <div className="p-3 rounded flex-fill" style={{ backgroundColor: '#fff', border: '1px solid #ddd' }}>
-                <h4>Loan Details</h4>
+              <div className="p-2 rounded flex-fill" style={{ backgroundColor: '#fff', border: '1px solid #ddd' }}> {/* Reduced padding */}
+                <h6 style={{ fontSize: '0.9rem', marginBottom: '0.25rem' }}>Loan Details</h6> {/* Reduced font size and margin */}
                 {/* Loan Amount Input */}
-                <div className="mb-3">
-                  <label htmlFor="loanAmount" className="form-label">Loan Amount</label>
+                <div className="mb-2"> {/* Reduced margin-bottom */}
+                  <label htmlFor="loanAmount" className="form-label" style={{ fontSize: '0.7rem' }}>Loan Amount</label> {/* Reduced font size */}
                   <input
                     type="range"
                     className="form-range"
@@ -103,15 +103,15 @@ function ForecloseCalculator() {
                     value={loanAmount}
                     onChange={(e) => setLoanAmount(parseInt(e.target.value))}
                   />
-                  <div className="d-flex justify-content-between">
+                  <div className="d-flex justify-content-between" style={{ fontSize: '0.6rem' }}> {/* Reduced font size */}
                     <span>50 K</span>
                     <span>5 Cr</span>
                   </div>
-                  <div className="text-center">₹{loanAmount.toLocaleString('en-IN')}</div>
+                  <div className="text-center" style={{ fontSize: '0.8rem' }}>₹{loanAmount.toLocaleString('en-IN')}</div> {/* Reduced font size */}
                 </div>
                 {/* Loan Tenure Input */}
-                <div className="mb-3">
-                  <label htmlFor="loanTenure" className="form-label">Loan Tenure (Years)</label>
+                <div className="mb-2"> {/* Reduced margin-bottom */}
+                  <label htmlFor="loanTenure" className="form-label" style={{ fontSize: '0.7rem' }}>Loan Tenure (Years)</label> {/* Reduced font size */}
                   <input
                     type="range"
                     className="form-range"
@@ -121,15 +121,15 @@ function ForecloseCalculator() {
                     value={loanTenure}
                     onChange={(e) => setLoanTenure(parseInt(e.target.value))}
                   />
-                  <div className="d-flex justify-content-between">
+                  <div className="d-flex justify-content-between" style={{ fontSize: '0.6rem' }}> {/* Reduced font size */}
                     <span>1</span>
                     <span>20</span>
                   </div>
-                  <div className="text-center">{loanTenure} Years</div>
+                  <div className="text-center" style={{ fontSize: '0.8rem' }}>{loanTenure} Years</div> {/* Reduced font size */}
                 </div>
                 {/* Interest Rate Input */}
-                <div className="mb-3">
-                  <label htmlFor="interestRate" className="form-label">Rate of Interest (%)</label>
+                <div className="mb-2"> {/* Reduced margin-bottom */}
+                  <label htmlFor="interestRate" className="form-label" style={{ fontSize: '0.7rem' }}>Rate of Interest (%)</label> {/* Reduced font size */}
                   <input
                     type="range"
                     className="form-range"
@@ -140,15 +140,15 @@ function ForecloseCalculator() {
                     value={interestRate}
                     onChange={(e) => setInterestRate(parseFloat(e.target.value))}
                   />
-                  <div className="d-flex justify-content-between">
+                  <div className="d-flex justify-content-between" style={{ fontSize: '0.6rem' }}> {/* Reduced font size */}
                     <span>5</span>
                     <span>32</span>
                   </div>
-                  <div className="text-center">{interestRate}%</div>
+                  <div className="text-center" style={{ fontSize: '0.8rem' }}>{interestRate}%</div> {/* Reduced font size */}
                 </div>
                 {/* EMI Paid Input */}
-                <div className="mb-3">
-                  <label htmlFor="emiPaid" className="form-label">EMI Paid</label>
+                <div className="mb-2"> {/* Reduced margin-bottom */}
+                  <label htmlFor="emiPaid" className="form-label" style={{ fontSize: '0.7rem' }}>EMI Paid</label> {/* Reduced font size */}
                   <input
                     type="range"
                     className="form-range"
@@ -159,50 +159,48 @@ function ForecloseCalculator() {
                     value={emiPaid}
                     onChange={(e) => setEmiPaid(parseInt(e.target.value))}
                   />
-                  <div className="d-flex justify-content-between">
+                  <div className="d-flex justify-content-between" style={{ fontSize: '0.6rem' }}> {/* Reduced font size */}
                     <span>0</span>
                     <span>{loanTenure * 12}</span>
                   </div>
-                  <div className="text-center">{emiPaid}</div>
+                  <div className="text-center" style={{ fontSize: '0.8rem' }}>{emiPaid}</div> {/* Reduced font size */}
                 </div>
               </div>
             </div>
-
             <div className="col-md-4 d-flex">
-  <div className="p-3 rounded flex-fill d-flex flex-column justify-content-center align-items-center" style={{ backgroundColor: '#fff', border: '1px solid #ddd' }}>
-    <h4>Foreclosure Amount</h4>
-    <h1 style={{ color: '#007BFF' }}>₹{foreclosureAmount.toLocaleString('en-IN')}</h1>
-    <br />
-    <h4>Monthly EMI Paid</h4>
-    <h1 style={{ color: '#007BFF' }}>₹{monthlyEMIPaidValue.toLocaleString('en-IN')}</h1>
-  </div>
-</div>
-<div className="col-md-4 d-flex">
-  <div className="p-3 rounded flex-fill d-flex flex-column justify-content-center align-items-center" style={{ backgroundColor: '#fff', border: '1px solid #ddd' }}>
-    <h4>Payment Breakdown</h4>
-    <div className="d-flex justify-content-center">
-      <div style={{ width: '200px', height: '200px' }}>
-        <Doughnut data={doughnutChartData} options={doughnutChartOptions} />
-      </div>
-    </div>
-    <div className="mt-3">
-      <div className="d-flex justify-content-between">
-        <div>
-          <span className="badge me-2" style={{ backgroundColor: '#FFC107' }}></span>
-          Interest Paid
-        </div>
-        <div>₹{interestPaid}</div>
-      </div>
-      <div className="d-flex justify-content-between">
-        <div>
-          <span className="badge me-2" style={{ backgroundColor: '#007BFF' }}></span>
-          Interest Saved
-        </div>
-        <div>₹{interestSaved}</div>
-      </div>
-    </div>
-  </div>
-</div>
+              <div className="p-2 rounded flex-fill d-flex flex-column justify-content-center align-items-center" style={{ backgroundColor: '#fff', border: '1px solid #ddd' }}> {/* Reduced padding */}
+                <h6 style={{ fontSize: '0.9rem', marginBottom: '0.25rem' }}>Foreclosure Amount</h6> {/* Reduced font size and margin */}
+                <h6 style={{ color: '#007BFF', fontSize: '1rem' }}>₹{foreclosureAmount.toLocaleString('en-IN')}</h6> {/* Reduced font size */}
+                <h6 style={{ fontSize: '0.9rem', marginBottom: '0.25rem' }}>Monthly EMI Paid</h6> {/* Reduced font size and margin */}
+                <h6 style={{ color: '#007BFF', fontSize: '1rem' }}>₹{monthlyEMIPaidValue.toLocaleString('en-IN')}</h6> {/* Reduced font size */}
+              </div>
+            </div>
+            <div className="col-md-4 d-flex">
+              <div className="p-2 rounded flex-fill d-flex flex-column justify-content-center align-items-center" style={{ backgroundColor: '#fff', border: '1px solid #ddd' }}> {/* Reduced padding */}
+                <h6 style={{ fontSize: '0.9rem', marginBottom: '0.25rem' }}>Payment Breakdown</h6> {/* Reduced font size and margin */}
+                <div className="d-flex justify-content-center">
+                  <div style={{ width: '150px', height: '150px' }}> {/* Reduced chart size */}
+                    <Doughnut data={doughnutChartData} options={doughnutChartOptions} />
+                  </div>
+                </div>
+                <div className="mt-1"> {/* Reduced margin-top */}
+                  <div className="d-flex justify-content-between" style={{ fontSize: '0.7rem' }}> {/* Reduced font size */}
+                    <div>
+                      <span className="badge me-1" style={{ backgroundColor: '#FFC107' }}></span> {/* Reduced margin-right */}
+                      Interest Paid
+                    </div>
+                    <div>₹{interestPaid}</div>
+                  </div>
+                  <div className="d-flex justify-content-between" style={{ fontSize: '0.7rem' }}> {/* Reduced font size */}
+                    <div>
+                      <span className="badge me-1" style={{ backgroundColor: '#007BFF' }}></span> {/* Reduced margin-right */}
+                      Interest Saved
+                    </div>
+                    <div>₹{interestSaved}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
