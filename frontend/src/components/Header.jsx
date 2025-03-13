@@ -149,12 +149,6 @@ const Header = () => {
         </Container>
       </Navbar>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
-=======
->>>>>>> 538f2db47123f1e4626a76452c34f075bd1b56d2
       {/* Admin Login Modal */}
       <form>
         <Modal show={show} onHide={handleClose} animation={false}>
@@ -248,10 +242,6 @@ const Header = () => {
           </Modal.Footer>
         </Modal>
       </form>
-<<<<<<< HEAD
->>>>>>> 93f45096a0910bcef904075814cdc01ed0fc1a69
-=======
->>>>>>> 538f2db47123f1e4626a76452c34f075bd1b56d2
     </>
   );
 };
