@@ -7,15 +7,11 @@ import Contact from "./pages/Contact";
 import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import EmiCalculator from "./pages/EmiCalculator";
-// import ForecloseCalculator from "./pages/ForecloseCalculator";
-import ForecloseCalculator from "./pages/ForeCloseCalculator";  // If the actual file name is different
 
-// Okk
+import ForecloseCalculator from "./pages/ForeCloseCalculator"; 
 
 
-
-
-// import EligibilityCalculator from "./pages/EligibilityCalculator";
+import EligibilityCalculator from "./pages/EligibilityCalculator";
 
 function App() {
   return (
@@ -32,7 +28,7 @@ function App() {
               path="/foreclosecalculator"
               element={<ForecloseCalculator />}
             />
-            {/* <Route path="/eligibilitycalculator" element={<EligibilityCalculator/>} /> */}
+            <Route path="/eligibilitycalculator" element={<EligibilityCalculator/>} />
 
             <Route path="contact" element={<Contact />} />
             <Route path="/singup" element={<Signup />}></Route>

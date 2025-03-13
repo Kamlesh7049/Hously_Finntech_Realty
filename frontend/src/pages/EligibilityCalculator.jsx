@@ -1,85 +1,212 @@
-import { useState } from "react";
-import { Card } from "@/components/ui/card";
-import { Slider } from "@/components/ui/slider";
-import { Button } from "@/components/ui/button";
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
-const EligibilityCalculator = () => {
-  const [income, setIncome] = useState(50000);
-  const [tenure, setTenure] = useState(20);
-  const [interest, setInterest] = useState(6.5);
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 
-  const maxLoanEligibility = income * 60; // Basic estimation
-  const interestPayable = (maxLoanEligibility * interest * tenure) / 100;
-  const totalPayable = maxLoanEligibility + interestPayable;
+const HomeLoanCalculator = () => {
+    const [monthlyIncome, setMonthlyIncome] = useState(50000);
+    const [tenure, setTenure] = useState(1);
+    const [interestRate, setInterestRate] = useState(6);
+    const [otherEMI, setOtherEMI] = useState(10000);
+    const [eligibleLoanAmount, setEligibleLoanAmount] = useState(0);
+    const [maxEMI, setMaxEMI] = useState(0);
 
-  const data = [
-    { name: "Principal Amount", value: maxLoanEligibility, color: "#FF6B6B" },
-    { name: "Interest Payable", value: interestPayable, color: "#3B82F6" },
-  ];
+    useEffect(() => {
+        const calculateLoanDetails = () => {
+            const calculatedMaxEMI = 0.25 * monthlyIncome;
+            const calculatedLoanAmount = (monthlyIncome * tenure * 12) - (otherEMI * tenure * 12);
 
-  return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h2 className="text-2xl font-bold">Home Loan Eligibility Calculator</h2>
-      <p className="text-gray-600 mt-2">Calculate your home loan eligibility based on your income.</p>
+            setMaxEMI(calculatedMaxEMI);
+            setEligibleLoanAmount(calculatedLoanAmount);
+        };
 
-      <Card className="p-4 mt-6">
-        <div>
-          <label>Monthly Income: ₹{income.toLocaleString()}</label>
-          <Slider
-            min={20000}
-            max={200000}
-            step={5000}
-            value={[income]}
-            onValueChange={(val) => setIncome(val[0])}
-          />
+        calculateLoanDetails();
+    }, [monthlyIncome, tenure, interestRate, otherEMI]);
+
+    const data = [
+        { name: 'Maturity Value', value: eligibleLoanAmount },
+        { name: 'Maximum EMI', value: maxEMI },
+        { name: 'Monthly Income', value: monthlyIncome },
+    ];
+
+    return (
+        <div style={{ fontFamily: 'Arial, sans-serif' }}>
+            <style>
+                {`
+                .container {
+                    max-width: 900px; /* Adjust as needed */
+                    margin: auto;
+                    padding: 20px;
+                }
+                .row {
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin-right: -15px;
+                    margin-left: -15px;
+                }
+                .col-md-4 {
+                    flex: 0 0 33.333333%;
+                    max-width: 33.333333%;
+                    padding-right: 15px;
+                    padding-left: 15px;
+                    box-sizing: border-box;
+                }
+                .card {
+                    border-radius: 10px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    margin-bottom: 20px;
+                    padding: 20px; /* Add padding to cards */
+                    height: 100%; /* Make cards same height */
+                    display: flex;
+                    flex-direction: column;
+                }
+                .form-control {
+                    width: 100%;
+                    padding: 8px;
+                    margin-bottom: 10px;
+                    border: 1px solid #ced4da;
+                    border-radius: 4px;
+                    box-sizing: border-box;
+                }
+                .btn {
+                    background-color: #28a745;
+                    color: white;
+                    padding: 10px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    width: 100%;
+                    box-sizing: border-box;
+                    margin-top: auto; /* Push button to the bottom */
+                }
+                .btn:hover {
+                    background-color: #218838;
+                }
+                .eligibility-card {
+                    background-color: #f8f9fa;
+                    text-align: center;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .eligibility-card h4 {
+                    color: #28a745;
+                }
+                .eligibility-card h5 {
+                    color: #007bff;
+                }
+                .legend-item {
+                    display: flex;
+                    align-items: center;
+                    margin-right: 10px;
+                    font-size: 12px;
+                }
+                .legend-color {
+                    width: 12px;
+                    height: 12px;
+                    margin-right: 5px;
+                    border-radius: 50%;
+                }
+            `}
+            </style>
+            <div className="container">
+                <h2 className="mb-4 text-center">Loan Eligibility Calculator</h2>
+                <p className="text-center">Calculate your home loan eligibility based on your income and expenses.</p>
+
+                <div className="row">
+                    {/* Section 1: Input Form */}
+                    <div className="col-md-4">
+                        <div className="card">
+                            <h4>Enter Your Details</h4>
+                            <label htmlFor="monthlyIncome">Monthly Income</label>
+                            <input
+                                type="number"
+                                className="form-control"
+                                id="monthlyIncome"
+                                value={monthlyIncome}
+                                onChange={(e) => setMonthlyIncome(parseInt(e.target.value))}
+                            />
+                            <label htmlFor="tenure">Tenure (Years)</label>
+                            <input
+                                type="number"
+                                className="form-control"
+                                id="tenure"
+                                value={tenure}
+                                onChange={(e) => setTenure(parseInt(e.target.value))}
+                            />
+                            <label htmlFor="interestRate">Interest Rate (%)</label>
+                            <input
+                                type="number"
+                                className="form-control"
+                                id="interestRate"
+                                value={interestRate}
+                                onChange={(e) => setInterestRate(parseFloat(e.target.value))}
+                            />
+                            <label htmlFor="otherEMI">Other EMI (Monthly)</label>
+                            <input
+                                type="number"
+                                className="form-control"
+                                id="otherEMI"
+                                value={otherEMI}
+                                onChange={(e) => setOtherEMI(parseInt(e.target.value))}
+                            />
+                            <button className="btn">Calculate</button>
+                        </div>
+                    </div>
+
+                    {/* Section 2: Loan Eligibility Output */}
+                    <div className="col-md-4">
+                        <div className="card eligibility-card">
+                            <h4>Your Loan Eligibility</h4>
+                            <p>Eligible Loan Amount:</p>
+                            <h5>₹ {eligibleLoanAmount.toLocaleString()}</h5>
+                            <p>Maximum EMI:</p>
+                            <h5>₹ {maxEMI.toLocaleString()}</h5>
+                            <p>For Tenure of {tenure} Years</p>
+                            <div></div>
+                        </div>
+                    </div>
+
+                    {/* Section 3: Donut Chart */}
+                    <div className="col-md-4">
+                        <div className="card">
+                            <h4>Payment Breakdown</h4>
+                            <ResponsiveContainer width="100%" height={200}>
+                                <PieChart>
+                                    <Pie
+                                        data={data}
+                                        cx="50%"
+                                        cy="50%"
+                                        outerRadius={70}
+                                        innerRadius={40}
+                                        dataKey="value"
+                                        isAnimationActive={false}
+                                    >
+                                        {data.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                </PieChart>
+                            </ResponsiveContainer>
+                            <div className="d-flex justify-content-center mt-3">
+                                {data.map((entry, index) => (
+                                    <span key={index} className="legend-item">
+                                        <span
+                                            className="legend-color"
+                                            style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                                        ></span>
+                                        {entry.name}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div className="mt-4">
-          <label>Loan Tenure: {tenure} Years</label>
-          <Slider
-            min={5}
-            max={30}
-            step={1}
-            value={[tenure]}
-            onValueChange={(val) => setTenure(val[0])}
-          />
-        </div>
-
-        <div className="mt-4">
-          <label>Rate of Interest: {interest}%</label>
-          <Slider
-            min={6}
-            max={15}
-            step={0.1}
-            value={[interest]}
-            onValueChange={(val) => setInterest(val[0])}
-          />
-        </div>
-      </Card>
-
-      <Card className="p-6 mt-6 text-center">
-        <h3 className="text-xl font-semibold">Eligible Loan Amount</h3>
-        <p className="text-3xl font-bold text-blue-600">₹{maxLoanEligibility.toLocaleString()}</p>
-      </Card>
-
-      <Card className="p-6 mt-6 flex flex-col items-center">
-        <h3 className="text-xl font-semibold">Payment Breakdown</h3>
-        <ResponsiveContainer width={200} height={200}>
-          <PieChart>
-            <Pie data={data} dataKey="value" outerRadius={80}>
-              {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} />
-              ))}
-            </Pie>
-          </PieChart>
-        </ResponsiveContainer>
-        <p className="mt-4">Total Payable: ₹{totalPayable.toLocaleString()}</p>
-      </Card>
-
-      <Button className="mt-6 w-full bg-blue-600">View Loan Details</Button>
-    </div>
-  );
+    );
 };
 
-export default EligibilityCalculator;
+export default HomeLoanCalculator;
