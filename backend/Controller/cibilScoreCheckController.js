@@ -1,5 +1,5 @@
-const axios = require('axios');
-const { asyncHandler } = require('../Utils/asyncHandler');
+import axios from 'axios';
+import { asyncHandler } from '../Utils/asyncHandler.js';
 
 
 const checkCibilScore = asyncHandler(async (req, res) => {
