@@ -12,7 +12,7 @@ const app = express()
 // File import
 import userRoute from './Routes/userRoute.js'
 import cibilRoute from './Routes/CibilScoreRoute.js'
-
+import chatBotRoute from './Routes/chatBotRoute.js'
 
 // Dependancy uses
 app.use(express.json())
@@ -27,6 +27,7 @@ app.use(morgan("dev"))
 
 app.use('/auth/user', userRoute)
 app.use('/auth/cibil', cibilRoute)
+app.use('/api/chatbot', chatBotRoute)
 
 
 export default app;
