@@ -10,7 +10,6 @@ const cookieOption = {
     default: true
 };
 
-// ok
 
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
@@ -32,7 +31,15 @@ const generateAccessAndRefreshTokens = async (userId) => {
 const register = asyncHandler(async (req, res) => {
     const { userName, password, email, mobileNumber, role } = req.body;
 
-    if ([userName, email, password, role].some((field) => field?.trim() === "")) {
+    console.log(req.body)
+
+
+    console.log(
+        userName, password, email, mobileNumber, role
+    )
+
+
+    if ([userName, email, password].some((field) => field?.trim() === "")) {
         throw new ApiError(400, "All fields are required");
     }
 
@@ -58,8 +65,12 @@ const register = asyncHandler(async (req, res) => {
         throw new ApiError(400, "Failed to create the user");
     }
 
+    const { accessToken, refreshToken } = generateAccessAndRefreshTokens(createdUser._id)
+
     return res
         .status(200)
+        .cookie('accessToken', accessToken, cookieOption)
+        .cookie('refreshToken', refreshToken, cookieOption)
         .json(new ApiResponse(
             200,
             createdUser,
