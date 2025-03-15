@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Navbar, Nav, Button, Container } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import logo from "../assets/images/logo1.png";
 import { useDispatch } from "react-redux";
@@ -9,18 +11,16 @@ import { createAccount } from "../Redux/Slice/authSlice";
 
 const Header = () => {
   const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  const handleSubmit = () => {
-    console.log("Admin Login Attempt:", { username, password });
-    handleClose();
-  };
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // State for Login Form
+  const [loginData, setLoginData] = useState({
+    username: "",
+    password: "",
+  });
+
+  // State for Sign-up Form
   const [signupData, setSignupData] = useState({
     userName: "",
     email: "",
@@ -28,6 +28,11 @@ const Header = () => {
     mobileNumber: "",
   });
 
+  // Handle Modal Toggle
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  // Handle User Input for Sign-up Form
   function handleUserInput(e) {
     const { name, value } = e.target;
     setSignupData({
@@ -36,6 +41,23 @@ const Header = () => {
     });
   }
 
+  // Handle User Input for Login Form
+  function handleLoginInput(e) {
+    const { name, value } = e.target;
+    setLoginData({
+      ...loginData,
+      [name]: value,
+    });
+  }
+
+  // Handle Admin Login (Currently Just a Console Log)
+  const handleSubmit = () => {
+    console.log("Admin Login Attempt:", loginData);
+    toast.success("Admin login successful (dummy function)");
+    handleClose();
+  };
+
+  // Handle Sign-up
   async function createNewAccount(event) {
     event.preventDefault();
     if (
@@ -48,21 +70,11 @@ const Header = () => {
       return;
     }
 
-    // checking name field length
+    // Checking name field length
     if (signupData.userName.length < 5) {
-      toast.error("Name should be atleast of 5 characters");
+      toast.error("Name should be at least 5 characters");
       return;
     }
-    // checking valid email
-    // if (!isEmail(signupData.email)) {
-    //   toast.error("Invalid email id");
-    //   return;
-    // }
-    // checking password validation
-    // if (!isPassword(signupData.password)) {
-    //   toast.error("Password should be 6 - 16 character long with atleast a number and special character");
-    //   return;
-    // }
 
     const formData = new FormData();
     formData.append("userName", signupData.userName);
@@ -70,9 +82,12 @@ const Header = () => {
     formData.append("password", signupData.password);
     formData.append("mobileNumber", signupData.mobileNumber);
 
-    // dispatch create account action
+    // Dispatch create account action
     const response = await dispatch(createAccount(formData));
-    if (response?.payload?.success) navigate("/");
+    if (response?.payload?.success) {
+      toast.success("Account created successfully!");
+      navigate("/");
+    }
 
     setSignupData({
       userName: "",
@@ -91,50 +106,26 @@ const Header = () => {
       >
         <Container>
           {/* Logo */}
-          
           <Navbar.Brand as={Link} to="/">
             <img src={logo} alt="Hously" width="120" />
           </Navbar.Brand>
 
           {/* Toggle Button for Mobile View */}
-
           <Navbar.Toggle aria-controls="navbar-nav" />
           <Navbar.Collapse id="navbar-nav">
-
-            {/* Navigation Links with Space Between */}
+            {/* Navigation Links */}
             <Nav className="mx-auto fw-semibold">
-              <Nav.Link
-                as={Link}
-                to="/home"
-                className="nav-link-custom mx-4"
-                style={{ fontSize: "18px", fontWeight: "bold" }} 
-              >
-                Home
-              </Nav.Link>
-              <Nav.Link
-                as={Link}
-                to="/bank"
-                className="nav-link-custom mx-4"
-                style={{ fontSize: "18px", fontWeight: "bold" }} 
-              >
-                Bank Offers
-              </Nav.Link>
-              <Nav.Link
-                as={Link}
-                to="/calculator"
-                className="nav-link-custom mx-4"
-                style={{ fontSize: "18px", fontWeight: "bold" }} 
-              >
-                Calculators
-              </Nav.Link>
-              <Nav.Link
-                as={Link}
-                to="/contact"
-                className="nav-link-custom mx-4"
-                style={{ fontSize: "18px", fontWeight: "bold" }} 
-              >
-                Contact
-              </Nav.Link>
+              {["home", "bank", "calculator", "contact"].map((path) => (
+                <Nav.Link
+                  key={path}
+                  as={Link}
+                  to={`/${path}`}
+                  className="nav-link-custom mx-4"
+                  style={{ fontSize: "18px", fontWeight: "bold" }}
+                >
+                  {path.charAt(0).toUpperCase() + path.slice(1)}
+                </Nav.Link>
+              ))}
             </Nav>
 
             {/* Login Button */}
@@ -149,109 +140,55 @@ const Header = () => {
         </Container>
       </Navbar>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
-=======
->>>>>>> 538f2db47123f1e4626a76452c34f075bd1b56d2
       {/* Admin Login Modal */}
-      <form>
-        <Modal show={show} onHide={handleClose} animation={false}>
-          <Modal.Header closeButton>
-            <Modal.Title style={{ fontWeight: "bold", color: "#343a40" }}>
-              Admin Login Area
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p style={{ marginBottom: "15px", color: "#6c757d" }}>
-              Admin Area for managing your website
-            </p>
-            <div className="form-group mb-3">
-              <label htmlFor="admin-username" style={{ fontWeight: "500" }}>
-                Enter Username:
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                value={signupData.userName}
-                name="userName"
-                onChange={handleUserInput}
-                placeholder="Enter username"
-                style={{ marginTop: "5px" }}
-              />
-            </div>
-            <div className="form-group mb-3">
-              <label htmlFor="admin-username" style={{ fontWeight: "500" }}>
-                Enter Email:
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                value={signupData.email}
-                name="email"
-                onChange={handleUserInput}
-                placeholder="Enter username"
-                style={{ marginTop: "5px" }}
-              />
-            </div>
-            <div className="form-group mb-3">
-              <label htmlFor="admin-username" style={{ fontWeight: "500" }}>
-                Enter Mobile Number:
-              </label>
-              <input
-                type="number"
-                className="form-control"
-                value={signupData.mobileNumber}
-                name="mobileNumber"
-                onChange={handleUserInput}
-                placeholder="Enter username"
-                style={{ marginTop: "5px" }}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="admin-password" style={{ fontWeight: "500" }}>
-                Enter Password:
-              </label>
-              <input
-                type="password"
-                className="form-control"
-                value={signupData.password}
-                onChange={handleUserInput}
-                name="password"
-                placeholder="Enter password"
-                style={{ marginTop: "5px" }}
-              />
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              variant="secondary"
-              onClick={handleClose}
-              style={{ borderRadius: "5px" }}
-            >
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={createNewAccount}
-              style={{
-                backgroundColor: "#007bff",
-                borderColor: "#007bff",
-                borderRadius: "5px",
-                padding: "8px 15px",
-                fontWeight: "bold",
-              }}
-            >
-              Login
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </form>
-<<<<<<< HEAD
->>>>>>> 93f45096a0910bcef904075814cdc01ed0fc1a69
-=======
->>>>>>> 538f2db47123f1e4626a76452c34f075bd1b56d2
+      <Modal show={show} onHide={handleClose} animation={false}>
+        <Modal.Header closeButton>
+          <Modal.Title style={{ fontWeight: "bold", color: "#343a40" }}>
+            Admin Login Area
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p style={{ marginBottom: "15px", color: "#6c757d" }}>
+            Admin Area for managing your website
+          </p>
+          <div className="form-group mb-3">
+            <label htmlFor="admin-username" style={{ fontWeight: "500" }}>
+              Username:
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              value={loginData.username}
+              name="username"
+              onChange={handleLoginInput}
+              placeholder="Enter username"
+              style={{ marginTop: "5px" }}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="admin-password" style={{ fontWeight: "500" }}>
+              Password:
+            </label>
+            <input
+              type="password"
+              className="form-control"
+              value={loginData.password}
+              onChange={handleLoginInput}
+              name="password"
+              placeholder="Enter password"
+              style={{ marginTop: "5px" }}
+            />
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSubmit}>
+            Login
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
