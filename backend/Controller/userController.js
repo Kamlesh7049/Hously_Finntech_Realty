@@ -81,6 +81,11 @@ const register = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
     const { userName, password } = req.body;
 
+
+    console.log(
+        userName, password
+    )
+
     const user = await User.findOne({ userName }).select("+password");
 
     if (!user) {

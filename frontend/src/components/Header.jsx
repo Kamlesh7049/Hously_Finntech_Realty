@@ -15,6 +15,13 @@ const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
 
+
+  // Close Login Modal and Reset State
+  const handleCloseLogin = () => {
+    setShowLogin(false);
+  };
+
+
   return (
     <>
       <Navbar expand="lg" className="bg-light py-3 shadow-sm" style={{ position: "sticky", top: 0, zIndex: 999 }}>
@@ -53,12 +60,9 @@ const Header = () => {
           <Modal.Title style={{ fontWeight: "bold", color: "#343a40" }}>Admin Login</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Signin />
+          <Signin setShowLogin={setShowLogin} />
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseLogin}>Close</Button>
-          <Button variant="primary" onClick={handleLoginSubmit}>Login</Button>
-        </Modal.Footer>
+
       </Modal>
 
       {/* Sign-up Modal */}

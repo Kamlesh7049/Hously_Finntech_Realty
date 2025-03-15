@@ -35,7 +35,7 @@ const Signup = ({ setShowSignup }) => {
             return;
         }
         if (signupData.userName.length < 5) {
-            toast.error("Username should be at least 5 characters");
+            toast.error("userName should be at least 5 characters");
             return;
         }
         if (signupData.password.length < 6) {
@@ -78,8 +78,8 @@ const Signup = ({ setShowSignup }) => {
     return (
         <form onSubmit={handleSignupSubmit}>
             <div className="form-group mb-3">
-                <label htmlFor="signup-username" style={{ fontWeight: "500" }}>Username:</label>
-                <input type="text" className="form-control" value={signupData.userName} name="userName" onChange={handleSignupInput} placeholder="Enter username" />
+                <label htmlFor="signup-userName" style={{ fontWeight: "500" }}>userName:</label>
+                <input type="text" className="form-control" value={signupData.userName} name="userName" onChange={handleSignupInput} placeholder="Enter userName" />
             </div>
             <div className="form-group mb-3">
                 <label htmlFor="signup-email" style={{ fontWeight: "500" }}>Email:</label>
