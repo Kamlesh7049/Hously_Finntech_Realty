@@ -2,11 +2,11 @@ import React from "react";
 
 const Footer = () => {
   const footerStyle = {
-    backgroundColor: "#001f3f", // Dark Blue Background
-    color: "#fff",
-    padding: "40px 10%", // Adjusted padding for responsiveness
+    backgroundColor: "#FFD700", // Yellow Background
+    color: "#0074D9", // Updated font color to blue
+    padding: "40px 10%", 
     textAlign: "left",
-    fontFamily: "Arial, sans-serif",
+    fontFamily: "'Glacial Indifference', sans-serif", 
   };
 
   const containerStyle = {
@@ -14,20 +14,20 @@ const Footer = () => {
     flexWrap: "wrap",
     justifyContent: "space-between",
     gap: "20px",
-    borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+    borderBottom: "1px solid rgba(0, 0, 0, 0.2)", 
     paddingBottom: "20px",
   };
 
   const sectionStyle = {
     flex: "1",
-    minWidth: "200px", // Ensures proper layout on smaller screens
+    minWidth: "200px", 
   };
 
   const sectionTitleStyle = {
     fontWeight: "bold",
     fontSize: "18px",
     marginBottom: "10px",
-    color: "#f8f9fa",
+    color: "#0074D9", // Updated text color
   };
 
   const listStyle = {
@@ -37,7 +37,7 @@ const Footer = () => {
 
   const listItemStyle = {
     marginBottom: "5px",
-    color: "#ddd",
+    color: "#0074D9", // Updated text color
     cursor: "pointer",
   };
 
@@ -45,13 +45,12 @@ const Footer = () => {
     textAlign: "center",
     marginTop: "20px",
     fontSize: "14px",
-    color: "#bbb",
+    color: "#0074D9", // Updated text color
   };
 
   return (
     <footer style={footerStyle}>
       <div style={containerStyle}>
-        {/* Quick Links Section */}
         <div style={sectionStyle}>
           <div style={sectionTitleStyle}>Quick Links</div>
           <ul style={listStyle}>
@@ -62,7 +61,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Legal & Policies Section */}
         <div style={sectionStyle}>
           <div style={sectionTitleStyle}>Legal & Policies</div>
           <ul style={listStyle}>
@@ -72,7 +70,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Support Section */}
         <div style={sectionStyle}>
           <div style={sectionTitleStyle}>Support</div>
           <ul style={listStyle}>
@@ -82,7 +79,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Join Us Section */}
         <div style={sectionStyle}>
           <div style={sectionTitleStyle}>Join Us</div>
           <ul style={listStyle}>
@@ -92,7 +88,6 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Copyright Section */}
       <div style={copyrightStyle}>
         © {new Date().getFullYear()} Hously Fintech Realty. All Rights Reserved.
       </div>

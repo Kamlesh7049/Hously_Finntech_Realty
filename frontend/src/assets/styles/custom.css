@@ -4,6 +4,11 @@ body {
     margin: 0;
     padding: 0;
 }
+@font-face {
+  font-family: 'Glacial Indifference';
+  src: url('/path-to-your-font/GlacialIndifference-Regular.ttf') format('truetype');
+}
+
 
 
 /* bhavesh */
