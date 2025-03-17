@@ -3,7 +3,7 @@ import { Navbar, Nav, Button, Container } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 
-import logo from "../assets/images/logo1.png";
+import logo from "../assets/images/Hously Finserv logo.png";
 import { useDispatch } from "react-redux";
 import { createAccount } from "../Redux/Slice/authSlice";
 
