@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import logo from "../assets/images/logo1.png";
+import logo from "../assets/images/Hously Finserv logo.png";
 import { useDispatch } from "react-redux";
 import { createAccount } from "../Redux/Slice/authSlice";
 import Signup from "../pages/Signup";
