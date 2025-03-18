@@ -34,9 +34,9 @@ export const loginUser = createAsyncThunk("/login/user", async (data, { rejectWi
 });
 
 // Logout User
-export const logout = createAsyncThunk("/logout", async (_, { rejectWithValue }) => {
+export const logoutUser = createAsyncThunk("/logout", async (_, { rejectWithValue }) => {
     try {
-        const res = await axiosInstance.get("/auth/logout");
+        const res = await axiosInstance.get("/auth/user/logout");
         toast.success(res?.data?.msg || "Logged out successfully!");
 
         // ✅ Remove tokens and user data on logout
@@ -61,6 +61,8 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(loginUser.fulfilled, (state, action) => {
+
+                console.log(action.payload)
                 // ✅ Store token and user data in localStorage
                 localStorage.setItem("accessToken", action.payload.data.accessToken);
                 localStorage.setItem("refreshToken", action.payload.data.refreshToken);
@@ -69,8 +71,8 @@ const authSlice = createSlice({
                 localStorage.setItem("role", action.payload.data.user.role);
 
                 state.isLoggedIn = true;
-                state.data = action.payload.user;
-                state.role = action.payload.user.role;
+                state.data = action.payload.data.user;
+                state.role = action.payload.data.user.role;
             })
             .addCase(loginUser.rejected, (state) => {
                 state.isLoggedIn = false;
