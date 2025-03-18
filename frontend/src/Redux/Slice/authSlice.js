@@ -79,7 +79,7 @@ const authSlice = createSlice({
                 state.data = {};
                 state.role = "";
             })
-            .addCase(logout.fulfilled, (state) => {
+            .addCase(logoutUser.fulfilled, (state) => {
                 state.isLoggedIn = false;
                 state.data = {};
                 state.role = "";
