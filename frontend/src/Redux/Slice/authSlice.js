@@ -1,68 +1,62 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import axiosInstance from "../../Helper/axiosInstance";
 
 // Initial State
 const initialState = {
   isLoggedIn: localStorage.getItem("isLoggedIn") === "true", // ✅ Fixed boolean conversion
   role: localStorage.getItem("role") || "",
-  data: localStorage.getItem("data") || {}, // ✅ Ensure stored data is properly parsed
+  data: (localStorage.getItem("data")) || {}, // ✅ Ensure stored data is properly parsed
 };
 
 // Create Account
-export const createAccount = createAsyncThunk(
-  "/signup",
-  async (data, { rejectWithValue }) => {
-    try {
-      const res = await axiosInstance.post("/auth/user/signup", data);
-      toast.success(res?.data?.msg || "Account created successfully!");
-      return res.data;
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Failed to create account");
-      return rejectWithValue(error?.response?.data);
-    }
+export const createAccount = createAsyncThunk("/signup", async (data, { rejectWithValue }) => {
+  try {
+    const res = await axiosInstance.post("/auth/user/signup", data);
+    toast.success(res?.data?.msg || "Account created successfully!");
+    return res.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.message || "Failed to create account");
+    return rejectWithValue(error?.response?.data);
   }
+}
 );
 
 // ✅ Added token storage for login
-export const loginUser = createAsyncThunk(
-  "/login/user",
-  async (data, { rejectWithValue }) => {
-    try {
-      const res = await axiosInstance.post("/auth/user/login", data);
-      toast.success(res?.data?.msg || "Login successful!");
-      return res.data;
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Failed to login");
-      return rejectWithValue(error?.response?.data);
-    }
+export const loginUser = createAsyncThunk("/login/user", async (data, { rejectWithValue }) => {
+  try {
+    const res = await axiosInstance.post("/auth/user/login", data);
+    toast.success(res?.data?.msg || "Login successful!");
+    return res.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.message || "Failed to login");
+    return rejectWithValue(error?.response?.data);
   }
+}
 );
 
 // Logout User
-export const logoutUser = createAsyncThunk(
-  "/logout",
-  async (_, { rejectWithValue }) => {
-    try {
-      const res = await axiosInstance.get("/auth/user/logout");
-      toast.success(res?.data?.msg || "Logged out successfully!");
+export const logoutUser = createAsyncThunk("/logout", async (_, { rejectWithValue }) => {
+  try {
+    const res = await axiosInstance.get("/auth/user/logout");
+    toast.success(res?.data?.msg || "Logged out successfully!");
 
-      // ✅ Remove tokens and user data on logout
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-      localStorage.removeItem("data");
-      localStorage.removeItem("isLoggedIn");
-      localStorage.removeItem("role");
+    // ✅ Remove tokens and user data on logout
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("data");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("role");
 
-      return res.data;
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Failed to logout");
-      return rejectWithValue(error?.response?.data);
-    }
+    return res.data;
+  } catch (error) {
+    toast.error(error?.response?.data?.message || "Failed to logout");
+    return rejectWithValue(error?.response?.data);
   }
+}
 );
 
-// Auth Slice
+// ✅ Auth Slice
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -70,7 +64,8 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.fulfilled, (state, action) => {
-        console.log(action.payload);
+
+        console.log(action.payload)
         // ✅ Store token and user data in localStorage
         localStorage.setItem("accessToken", action.payload.data.accessToken);
         localStorage.setItem("refreshToken", action.payload.data.refreshToken);
@@ -96,3 +91,4 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+

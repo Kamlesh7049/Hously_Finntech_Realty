@@ -7,7 +7,6 @@ const userSchema = new Schema(
     {
         userName: {
             type: String,
-            // required: [true, 'Username is required'],
             minLength: [5, "Username must be at least 5 characters"],
             maxLength: [20, "Username should be less than 20 characters"],
             trim: true,
@@ -31,7 +30,6 @@ const userSchema = new Schema(
         },
         address: {
             type: String,
-            // required: [true, 'Address is required'],
             trim: true,
             lowercase: true
         },

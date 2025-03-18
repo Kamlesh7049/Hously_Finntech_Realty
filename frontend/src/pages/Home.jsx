@@ -1,11 +1,14 @@
 import Carousel from "react-bootstrap/Carousel";
 import Button from "react-bootstrap/Button";
+import HappySection from "../components/HappySection";
 import BankOffers from "../pages/BankOffers";
+import CalculatorSection from "./CalculatorSection";
+
 
 import ban1 from "../assets/images/ban1.jpg";
 import ban2 from "../assets/images/ban1.jpg";
 import ban3 from "../assets/images/ban3.jpg";
-import CalculatorSection from "./CalculatorSection";
+// import HappySection from "../components/HappySection";
 
 
 const Home = () => {
@@ -58,7 +61,8 @@ const Home = () => {
                 Transfer Your Balance Today &
                 <h1 style={{ color: "#1f6e0f" }}>
                   Save Big!
-                </h1></p>
+                </h1>
+              </p>
               <Button variant="primary"
                 onClick={() => { window.location.href = "/applynow" }}
               >
@@ -68,10 +72,12 @@ const Home = () => {
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
+      <HappySection />
       <BankOffers />
-      <CalculatorSection/>
+      <CalculatorSection />
     </>
   )
 }
 
-export default Home; 
+export default Home;
+

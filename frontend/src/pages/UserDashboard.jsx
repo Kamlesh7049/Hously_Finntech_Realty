@@ -37,7 +37,8 @@ function UserDashboard() {
 
     const handleLogout = async () => {
         const res = await dispatch(logoutUser())
-        if (res.success) {
+        console.log(res)
+        if (res.payload.success) {
             navigate("/")
         }
     }
