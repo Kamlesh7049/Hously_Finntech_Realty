@@ -60,7 +60,7 @@ function UserDashboard() {
                         </button>
                     ))}
 
-                    <button className="flex items-center space-x-3 w-full py-2 px-4 rounded-md mt-10 text-red-400 hover:bg-red-600 hover:text-white">
+                    <button onClick={handleLogout} className="flex items-center space-x-3 w-full py-2 px-4 rounded-md mt-10 text-red-400 hover:bg-red-600 hover:text-white">
                         <LogOut size={20} />
                         <span>Logout</span>
                     </button>
