@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Navbar, Nav, Button, Container } from "react-bootstrap";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import "react-toastify/dist/ReactToastify.css";
 
-import logo from "../assets/images/houslylogo.jpeg";
-
+import logo from "../assets/images/flogo.png";
 import Signup from "../pages/Signup";
 import Signin from "../pages/Signin";
 

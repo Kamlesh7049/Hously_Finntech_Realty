@@ -16,6 +16,9 @@ import {
     BarChart3,
     LogOut,
 } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { logoutUser } from '../Redux/Slice/authSlice'
 
 // import "tailwindcss/tailwind.css";
 
@@ -29,6 +32,15 @@ const data = [
 
 function UserDashboard() {
     const [sidebarOpen, setSidebarOpen] = useState(true);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        const res = dispatch(logoutUser())
+        if (res.success) {
+            navigate("/")
+        }
+    }
 
     return (
         <div className="flex h-screen bg-gray-100">
@@ -47,7 +59,8 @@ function UserDashboard() {
                             <span>{item.label}</span>
                         </button>
                     ))}
-                    <button className="flex items-center space-x-3 w-full py-2 px-4 rounded-md mt-10 text-red-400 hover:bg-red-600 hover:text-white">
+
+                    <button onClick={handleLogout} className="flex items-center space-x-3 w-full py-2 px-4 rounded-md mt-10 text-red-400 hover:bg-red-600 hover:text-white">
                         <LogOut size={20} />
                         <span>Logout</span>
                     </button>
