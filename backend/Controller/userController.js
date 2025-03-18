@@ -81,11 +81,6 @@ const register = asyncHandler(async (req, res) => {
 const loginUser = asyncHandler(async (req, res) => {
     const { userName, password } = req.body;
 
-
-    console.log(
-        userName, password
-    )
-
     const user = await User.findOne({ userName }).select("+password");
 
     if (!user) {
@@ -109,11 +104,12 @@ const loginUser = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, { user: loggedInUser, accessToken, refreshToken }, "User logged in successfully"));
 });
 
+
+
 const logOut = asyncHandler(async (req, res) => {
     console.log(req.user)
     const { _id } = req.user;
     console.log(_id)
-
     await User.findByIdAndUpdate(_id, { $set: { refreshToken: undefined } }, { new: true });
 
     res

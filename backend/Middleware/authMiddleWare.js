@@ -20,6 +20,7 @@ const isLoggedIn = async (req, res, next) => {
 const verifyJwt =
     asyncHandler(
         async (req, res, next) => {
+            console.log("Cookie", req?.cookie?.accessToken)
             try {
                 const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "")
                 console.log(token)
