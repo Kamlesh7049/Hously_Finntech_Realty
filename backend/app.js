@@ -13,6 +13,7 @@ const app = express()
 import userRoute from './Routes/userRoute.js'
 import cibilRoute from './Routes/CibilScoreRoute.js'
 import chatBotRoute from './Routes/chatBotRoute.js'
+import cookieParser from "cookie-parser";
 
 // Dependancy uses
 app.use(express.json())
@@ -22,6 +23,8 @@ app.use(cors({
     methods: ["POST", "GET", "PUT", "PUT", "PATCH"],
     credentials: true
 }))
+
+app.use(cookieParser())
 app.use(morgan("dev"))
 
 
