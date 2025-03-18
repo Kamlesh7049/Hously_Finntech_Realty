@@ -61,6 +61,8 @@ const authSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(loginUser.fulfilled, (state, action) => {
+
+                console.log(action.payload)
                 // ✅ Store token and user data in localStorage
                 localStorage.setItem("accessToken", action.payload.data.accessToken);
                 localStorage.setItem("refreshToken", action.payload.data.refreshToken);
@@ -69,8 +71,8 @@ const authSlice = createSlice({
                 localStorage.setItem("role", action.payload.data.user.role);
 
                 state.isLoggedIn = true;
-                state.data = action.payload.user;
-                state.role = action.payload.user.role;
+                state.data = action.payload.data.user;
+                state.role = action.payload.data.user.role;
             })
             .addCase(loginUser.rejected, (state) => {
                 state.isLoggedIn = false;

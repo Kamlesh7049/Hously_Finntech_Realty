@@ -8,10 +8,11 @@ import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import EmiCalculator from "./pages/EmiCalculator";
 
-import ForecloseCalculator from "./pages/ForeCloseCalculator"; 
+import ForecloseCalculator from "./pages/ForeCloseCalculator";
 
 
 import EligibilityCalculator from "./pages/EligibilityCalculator";
+import UserDashboard from "./pages/UserDashboard";
 
 function App() {
   return (
@@ -28,11 +29,14 @@ function App() {
               path="/foreclosecalculator"
               element={<ForecloseCalculator />}
             />
-            <Route path="/eligibilitycalculator" element={<EligibilityCalculator/>} />
+            <Route path="/eligibilitycalculator" element={<EligibilityCalculator />} />
 
             <Route path="contact" element={<Contact />} />
             <Route path="/singup" element={<Signup />}></Route>
             <Route path="/singin" element={<Signin />}></Route>
+
+
+            <Route path="/user-dashboard" element={<UserDashboard />}></Route>
           </Route>
         </Routes>
       </Router>

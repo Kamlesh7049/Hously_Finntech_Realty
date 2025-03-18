@@ -27,7 +27,7 @@ function Signin({ setShowLogin }) {
         try {
             const res = await dispatch(loginUser(loginData)).unwrap(); // `unwrap()` to catch errors properly
             if (res.success) {
-                navigate("/dashboard"); // Redirect to dashboard on success
+                navigate("/user-dashboard"); // Redirect to dashboard on success
                 handleCloseLogin();
             }
         } catch (err) {
