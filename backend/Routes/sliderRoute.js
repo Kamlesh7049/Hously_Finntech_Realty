@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { createSlide, deleteSlide, getAllSlide, updateSlide } from '../Controller/sliderController';
+import { createSlide, deleteSlide, getAllSlide, updateSlide } from '../Controller/sliderController.js';
 
 
 const router = Router();
