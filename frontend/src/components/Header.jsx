@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { Navbar, Nav, Button, Container } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import logo from "../assets/images/Hously Finserv logo.png";
-import { useDispatch } from "react-redux";
-import { createAccount } from "../Redux/Slice/authSlice";
+import logo from "../assets/images/houslylogo.jpeg";
+
 import Signup from "../pages/Signup";
 import Signin from "../pages/Signin";
 
@@ -28,7 +26,7 @@ const Header = () => {
         <Container>
           {/* Logo */}
           <Navbar.Brand as={Link} to="/">
-            <img src={logo} alt="Hously" width="120" />
+            <img src={logo} alt="Hously" width="100" height="80"/>
           </Navbar.Brand>
 
           {/* Toggle Button for Mobile View */}
