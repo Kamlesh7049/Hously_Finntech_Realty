@@ -9,18 +9,15 @@ import {
 } from "recharts";
 import {
     Menu,
-    Home,
-    Users,
-    Settings,
     Bell,
-    BarChart3,
+    Settings,
     LogOut,
 } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logoutUser } from '../Redux/Slice/authSlice'
-
-// import "tailwindcss/tailwind.css";
+import { logoutUser } from '../Redux/Slice/authSlice';
+import OfferForm from "./OfferForm";
+import { Modal, Button } from "react-bootstrap";
 
 const data = [
     { name: "Jan", sales: 4000 },
@@ -32,34 +29,28 @@ const data = [
 
 function UserDashboard() {
     const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [showOffer, setShowOffer] = useState(false);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleLogout = async () => {
-        const res = await dispatch(logoutUser())
-        console.log(res)
+        const res = await dispatch(logoutUser());
+        console.log(res);
         if (res.payload.success) {
-            navigate("/")
+            navigate("/");
         }
-    }
+    };
 
     return (
         <div className="flex h-screen bg-gray-100">
             {/* Sidebar */}
-            <aside
-                className={`bg-gray-900 text-white w-64 p-6 transition-all duration-300 ease-in-out ${sidebarOpen ? "block" : "hidden"} md:block fixed md:relative h-full`}
-            >
+            <aside className={`bg-gray-900 text-white w-64 p-6 transition-all duration-300 ease-in-out ${sidebarOpen ? "block" : "hidden"} md:block fixed md:relative h-full`}>
                 <h1 className="text-2xl font-bold mb-6">w3CRM</h1>
                 <nav className="space-y-4">
-                    {[{ icon: Home, label: "Dashboard" },
-                    { icon: Users, label: "Users" },
-                    { icon: BarChart3, label: "Reports" },
-                    { icon: Settings, label: "Settings" }].map((item, index) => (
-                        <button key={index} className="flex items-center space-x-3 w-full py-2 px-4 rounded-md hover:bg-gray-700">
-                            <item.icon size={20} />
-                            <span>{item.label}</span>
-                        </button>
-                    ))}
+                    <button onClick={() => setShowOffer(true)} className="flex items-center space-x-3 w-full py-2 px-4 rounded-md hover:bg-gray-700">
+                        <span>Create Offer</span>
+                    </button>
 
                     <button onClick={handleLogout} className="flex items-center space-x-3 w-full py-2 px-4 rounded-md mt-10 text-red-400 hover:bg-red-600 hover:text-white">
                         <LogOut size={20} />
@@ -67,6 +58,16 @@ function UserDashboard() {
                     </button>
                 </nav>
             </aside>
+
+            {/* Offer Modal */}
+            <Modal show={showOffer} onHide={() => setShowOffer(false)} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Create Offer</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <OfferForm setShowoffer={setShowOffer} />
+                </Modal.Body>
+            </Modal>
 
             {/* Main Content */}
             <main className="flex-1 flex flex-col p-6 md:ml-64">
@@ -83,9 +84,11 @@ function UserDashboard() {
 
                 {/* Dashboard Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {[{ title: "Total Sales", value: "$15,000", color: "text-blue-600" },
-                    { title: "New Users", value: "1,250", color: "text-green-500" },
-                    { title: "Orders", value: "320", color: "text-purple-500" }].map((card, index) => (
+                    {[
+                        { title: "Total Sales", value: "$15,000", color: "text-blue-600" },
+                        { title: "New Users", value: "1,250", color: "text-green-500" },
+                        { title: "Orders", value: "320", color: "text-purple-500" },
+                    ].map((card, index) => (
                         <div key={index} className="bg-white shadow-lg rounded-lg p-6">
                             <h2 className="text-lg font-semibold text-gray-700">{card.title}</h2>
                             <p className={`text-3xl font-bold ${card.color}`}>{card.value}</p>

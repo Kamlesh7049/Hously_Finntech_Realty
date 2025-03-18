@@ -18,6 +18,6 @@ const sliderShema = new Schema({
 
 
 
-const Slider = model("slider", sliderShema);
+const Slide = model("slider", sliderShema);
 
-export default Slider;
+export default Slide;
