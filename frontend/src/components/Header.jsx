@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import logo from "../assets/images/Hously Finserv logo.png";
+import logo from "../assets/images/flogo.png";
 import { useDispatch } from "react-redux";
 import { createAccount } from "../Redux/Slice/authSlice";
 import Signup from "../pages/Signup";
@@ -28,7 +28,7 @@ const Header = () => {
         <Container>
           {/* Logo */}
           <Navbar.Brand as={Link} to="/">
-            <img src={logo} alt="Hously" width="120" />
+            <img src={logo} alt="Hously" width="100" height="80"/>
           </Navbar.Brand>
 
           {/* Toggle Button for Mobile View */}
