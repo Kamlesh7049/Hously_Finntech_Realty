@@ -3,6 +3,7 @@ import { Navbar, Nav, Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import { useSelector } from "react-redux";
+import { FaUserCircle } from "react-icons/fa";
 
 import logo from "../assets/images/Hously Finserv logo.png";
 import Signup from "../pages/Signup";
@@ -14,57 +15,60 @@ const Header = () => {
 
   const { isLoggedIn } = useSelector((state) => state?.auth);
 
-  // Close Login Modal
-  const handleCloseLogin = () => setShowLogin(false);
-  // Close Signup Modal
-  const handleCloseSignup = () => setShowSignup(false);
-
   return (
     <>
-      <Navbar expand="lg" className="bg-light py-3 shadow-sm" style={{ position: "sticky", top: 0, zIndex: 999 }}>
+      {/* Navbar */}
+      <Navbar expand="lg" className="bg-white py-3 shadow-sm sticky-top">
         <Container>
           {/* Logo */}
           <Navbar.Brand as={Link} to="/">
-            <img src={logo} alt="Hously" width="120" />
+            <img src={logo} alt="Hously" width="140" />
           </Navbar.Brand>
 
-          {/* Toggle Button for Mobile View */}
+          {/* Navbar Toggler for Mobile */}
           <Navbar.Toggle aria-controls="navbar-nav" />
+
+          {/* Navbar Links */}
           <Navbar.Collapse id="navbar-nav">
-            {/* Navigation Links */}
             <Nav className="mx-auto fw-semibold">
               {["home", "bank", "calculator", "contact"].map((path) => (
-                <Nav.Link key={path} as={Link} to={`/${path}`} className="nav-link-custom mx-4" style={{ fontSize: "18px", fontWeight: "bold" }}>
+                <Nav.Link
+                  key={path}
+                  as={Link}
+                  to={`/${path}`}
+                  className="mx-3"
+                  style={{ fontSize: "18px", fontWeight: "bold", color: "#333" }}
+                >
                   {path.charAt(0).toUpperCase() + path.slice(1)}
                 </Nav.Link>
               ))}
             </Nav>
 
-            {/* Conditional Rendering for Auth Buttons */}
+            {/* Authentication Buttons */}
             {isLoggedIn ? (
-              <Link to={"/user-dashboard"}>
-                <Button variant="dark" className="ms-3 px-4 rounded-pill">
-                  Profile
+              <Link to="/user-dashboard">
+                <Button variant="dark" className="px-4 rounded-pill d-flex align-items-center gap-2">
+                  <FaUserCircle size={20} /> Profile
                 </Button>
               </Link>
             ) : (
-              <>
-                <Button variant="dark" className="ms-3 px-4 rounded-pill" onClick={() => setShowLogin(true)}>
+              <div className="d-flex gap-3">
+                <Button variant="dark" className="px-4 rounded-pill" onClick={() => setShowLogin(true)}>
                   Login
                 </Button>
-                <Button variant="outline-dark" className="ms-3 px-4 rounded-pill" onClick={() => setShowSignup(true)}>
+                <Button variant="outline-dark" className="px-4 rounded-pill" onClick={() => setShowSignup(true)}>
                   Sign Up
                 </Button>
-              </>
+              </div>
             )}
           </Navbar.Collapse>
         </Container>
       </Navbar>
 
-      {/* Admin Login Modal */}
-      <Modal show={showLogin} onHide={handleCloseLogin} animation={false}>
+      {/* Login Modal */}
+      <Modal show={showLogin} onHide={() => setShowLogin(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title style={{ fontWeight: "bold", color: "#343a40" }}>Admin Login</Modal.Title>
+          <Modal.Title className="fw-bold">Admin Login</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Signin setShowLogin={setShowLogin} />
@@ -72,9 +76,9 @@ const Header = () => {
       </Modal>
 
       {/* Sign-up Modal */}
-      <Modal show={showSignup} onHide={handleCloseSignup} animation={false}>
+      <Modal show={showSignup} onHide={() => setShowSignup(false)} centered>
         <Modal.Header closeButton>
-          <Modal.Title style={{ fontWeight: "bold", color: "#343a40" }}>Sign Up</Modal.Title>
+          <Modal.Title className="fw-bold">Sign Up</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Signup setShowSignup={setShowSignup} />

@@ -13,10 +13,12 @@ import ForecloseCalculator from "./pages/ForeCloseCalculator";
 
 import EligibilityCalculator from "./pages/EligibilityCalculator";
 import UserDashboard from "./pages/UserDashboard";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <>
+      <ToastContainer position="top-center" autoClose={2000} />
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>

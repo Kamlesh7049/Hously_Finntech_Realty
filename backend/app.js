@@ -2,6 +2,7 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import cookieParser from "cookie-parser";
 
 import { config } from "dotenv";
 
@@ -13,7 +14,8 @@ const app = express()
 import userRoute from './Routes/userRoute.js'
 import cibilRoute from './Routes/CibilScoreRoute.js'
 import chatBotRoute from './Routes/chatBotRoute.js'
-import cookieParser from "cookie-parser";
+import slideRoute from './Routes/sliderRoute.js'
+
 
 // Dependancy uses
 app.use(express.json())
@@ -31,6 +33,7 @@ app.use(morgan("dev"))
 app.use('/auth/user', userRoute)
 app.use('/auth/cibil', cibilRoute)
 app.use('/api/chatbot', chatBotRoute)
+app.use('api/slide', slideRoute)
 
 
 export default app;
