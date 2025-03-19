@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
+import { createOffer } from "../Redux/Slice/offerSlice";
 
 function OfferForm({ setShowoffer }) {
     const dispatch = useDispatch();
@@ -24,8 +25,8 @@ function OfferForm({ setShowoffer }) {
         }
 
         try {
-            console.log("Offer Created:", offerData);
-            handleClose();
+            const res = await dispatch(createOffer(offerData))
+            console.log(res)
         } catch (err) {
             console.error("Offer creation failed:", err);
         }
