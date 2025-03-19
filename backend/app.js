@@ -33,7 +33,7 @@ app.use(morgan("dev"))
 app.use('/auth/user', userRoute)
 app.use('/auth/cibil', cibilRoute)
 app.use('/api/chatbot', chatBotRoute)
-app.use('api/slide', slideRoute)
+app.use("/api/slide", slideRoute);
 
 
 export default app;
