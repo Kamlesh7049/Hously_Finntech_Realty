@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { Navbar, Nav, Button, Container, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import {
-  FaBars,
-  FaTimes,
-  FaHome,
-  FaUniversity,
-  FaCalculator,
-  FaEnvelope,
-  FaUserCircle
+import { 
+  FaBars, 
+  FaTimes, 
+  FaHome, 
+  FaUniversity, 
+  FaCalculator, 
+  FaEnvelope, 
+  FaUserCircle 
 } from "react-icons/fa";
 
 import logo from "../assets/images/flogo.png";
@@ -17,7 +17,7 @@ import Signup from "../pages/Signup";
 import Signin from "../pages/Signin";
 
 const Header = () => {
-  // Sidebar and modal state
+  // State for sidebar and modals
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
@@ -25,17 +25,16 @@ const Header = () => {
   // Get auth state from Redux
   const { isLoggedIn } = useSelector((state) => state?.auth);
 
-  // Toggle sidebar
   const handleToggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // Theme Colors
-  const primaryColor = "#0074d9"; // Blue
-  const secondaryColor = "#ffd700"; // Yellow
-  const textColor = "#fff"; // White text
+  // Colors
+  const primaryColor = "#0074d9"; // Blue for Button
+  const secondaryColor = "#ffd700"; // Yellow for Hover
+  const textColor = "#fff"; // White text for button
 
-  // Navigation Menu Items
+  // Menu Items with Icons
   const menuItems = [
     { name: "Home", icon: <FaHome />, link: "/home" },
     { name: "Bank", icon: <FaUniversity />, link: "/bank" },
@@ -85,13 +84,13 @@ const Header = () => {
         </Container>
       </Navbar>
 
-      {/* Sliding Sidebar */}
+      {/* Right-Side Sliding Sidebar */}
       <div
         style={{
           position: "fixed",
           top: 0,
-          right: isSidebarOpen ? "0" : "-320px",
-          width: "320px",
+          right: isSidebarOpen ? "0" : "-300px", // Slide effect
+          width: "300px",
           height: "100vh",
           backgroundColor: "#f8f9fa",
           boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
@@ -118,7 +117,7 @@ const Header = () => {
           <FaTimes />
         </Button>
 
-        {/* Navigation Links */}
+        {/* Navigation Links with Icons */}
         <Nav className="d-flex flex-column mt-5">
           {menuItems.map((item, index) => (
             <Nav.Link
@@ -129,12 +128,13 @@ const Header = () => {
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "12px",
-                padding: "12px",
+                gap: "10px",
+                padding: "15px",
                 fontSize: "18px",
                 fontWeight: "600",
                 color: "#000",
                 borderRadius: "8px",
+                backgroundColor: "transparent",
                 transition: "background-color 0.3s ease",
                 fontFamily: "'Glacial Indifference', sans-serif",
               }}

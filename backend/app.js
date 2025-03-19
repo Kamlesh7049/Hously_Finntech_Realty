@@ -14,7 +14,7 @@ const app = express()
 import userRoute from './Routes/userRoute.js'
 import cibilRoute from './Routes/CibilScoreRoute.js'
 import chatBotRoute from './Routes/chatBotRoute.js'
-import offerRoute from './Routes/offferRoute.js'
+import slideRoute from './Routes/sliderRoute.js'
 
 
 // Dependancy uses
@@ -33,7 +33,7 @@ app.use(morgan("dev"))
 app.use('/auth/user', userRoute)
 app.use('/auth/cibil', cibilRoute)
 app.use('/api/chatbot', chatBotRoute)
-app.use('/api/offer', offerRoute)
+app.use("/api/slide", slideRoute);
 
 
 export default app;

@@ -1,16 +1,16 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Layout from "./Layout";
-import Home from "./pages/Home";
-import BankOffers from "./pages/BankOffers";
-import Calculators from "./pages/CalculatorSection";
-import Contact from "./pages/Contact";
-import Signup from "./pages/Signup";
-import Signin from "./pages/Signin";
-import EmiCalculator from "./pages/EmiCalculator";
-import ForecloseCalculator from "./pages/ForeCloseCalculator";
-import EligibilityCalculator from "./pages/EligibilityCalculator";
-import UserDashboard from "./pages/UserDashboard";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"; 
+import Layout from "./Layout"; 
+import Home from "./pages/Home"; 
+import BankOffers from "./pages/BankOffers"; 
+import Calculators from "./pages/CalculatorSection"; 
+import Contact from "./pages/Contact"; 
+import Signup from "./pages/Signup"; 
+import Signin from "./pages/Signin"; 
+import EmiCalculator from "./pages/EmiCalculator";  
+import ForecloseCalculator from "./pages/ForeCloseCalculator";   
+import EligibilityCalculator from "./pages/EligibilityCalculator"; 
+import UserDashboard from "./pages/UserDashboard"; 
 import { ToastContainer } from "react-toastify";
 
 // Import admin pages or components if available
@@ -44,7 +44,7 @@ function App() {
             <Route path="/singin" element={<Signin />} />
             <Route path="/ahome" element={<Home />} />
           </Route>
-
+          
           {/* Admin/Dashboard Routes */}
           <Route path="/user-dashboard" element={<UserDashboard />} />
           {/* <Route path="/ahome" element={<Home />} /> */}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { Container, Row, Col, Card, Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
@@ -19,11 +19,11 @@ const PromoBanner = () => {
   };
 
   return (
-    <div className="position-fixed d-flex flex-column align-items-center promo-banner">
-      <div className="bg-dark text-white d-flex flex-column align-items-center shadow promo-item" onClick={handleCreditScoreClick}>
+    <div className="position-fixed d-flex flex-column align-items-center" style={{ top: "50%", right: "0px", transform: "translateY(-50%)", zIndex: 1100 }}>
+      <div className="bg-dark text-white d-flex flex-column align-items-center shadow" style={{ writingMode: "vertical-rl", padding: "10px", borderRadius: "25px", fontSize: "12px", width: "40px", cursor: "pointer" }} onClick={handleCreditScoreClick}>
         📊 Free Credit Score
       </div>
-      <div className="bg-white text-dark d-flex flex-column align-items-center shadow promo-item" onClick={handleDownloadClick}>
+      <div className="bg-white text-dark d-flex flex-column align-items-center shadow" style={{ writingMode: "vertical-rl", padding: "10px", borderRadius: "25px", fontSize: "12px", width: "40px", marginTop: "10px", cursor: "pointer" }} onClick={handleDownloadClick}>
         📥 Download Our App
       </div>
     </div>
@@ -35,33 +35,25 @@ const ChatSupport = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-  const chatBoxRef = useRef(null);
-
-  useEffect(() => {
-    if (chatBoxRef.current) {
-      chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
-    }
-  }, [messages]);
 
   const handleSendMessage = async () => {
     if (!input.trim()) return;
 
     const userMessage = { text: input, sender: "user" };
-    setMessages((prev) => [...prev, userMessage]);
+    setMessages([...messages, userMessage]);
 
     try {
-      const response = await fetch("https://api.example.com/chatbot", {
+      const response = await fetch("https://api.example.com/chatbot ", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: input }),
       });
 
       const data = await response.json();
-      const botMessage = { text: data.reply || "I'm here to assist you!", sender: "bot" };
-      setMessages((prev) => [...prev, botMessage]);
+      const botMessage = { text: data.reply, sender: "bot" };
+      setMessages([...messages, userMessage, botMessage]);
     } catch (error) {
-      setMessages((prev) => [...prev, { text: "Error fetching AI response. Try again.", sender: "bot" }]);
-      console.error("Chatbot API Error:", error);
+      console.error("Error fetching AI response:", error);
     }
 
     setInput("");
@@ -70,14 +62,14 @@ const ChatSupport = () => {
   return (
     <>
       {/* Chat Support Button */}
-      <div className="position-fixed d-flex align-items-center justify-content-center chat-btn" onClick={() => setIsOpen(!isOpen)}>
+      <div className="position-fixed d-flex align-items-center justify-content-center" style={{ bottom: "30px", right: "20px", zIndex: 1400, borderRadius: "50%", width: "55px", height: "55px", backgroundColor: "#0074D9", color: "#fff", cursor: "pointer", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }} onClick={() => setIsOpen(!isOpen)}>
         <FaHeadset size={40} />
       </div>
 
       {isOpen && (
-        <div className="position-fixed d-flex flex-column bg-dark text-white p-3 rounded shadow-lg chat-box">
+        <div className="position-fixed d-flex flex-column bg-dark text-white p-3 rounded shadow-lg" style={{ bottom: "20px", right: "10px", zIndex: 1000, width: "260px", borderRadius: "15px" }}>
           <h6>Chat with AI Assistant</h6>
-          <div ref={chatBoxRef} className="chat-messages">
+          <div style={{ maxHeight: "200px", overflowY: "auto", marginBottom: "10px" }}>
             {messages.map((msg, index) => (
               <div key={index} className={`text-${msg.sender === "user" ? "primary" : "light"} mb-1`}>
                 {msg.text}
@@ -125,7 +117,7 @@ const LoanOffers = () => {
       </Row>
       <Slider {...settings} className="mt-4">
         {loanData.map((loan, index) => (
-          <div key={loan.title} className="px-2">
+          <div key={index} className="px-2">
             <Card className="p-3 text-center shadow-sm" style={{ borderRadius: "15px", backgroundColor: "#E8E8E8" }}>
               <div className="mb-3">{loan.icon}</div>
               <h5 className="fw-bold">{loan.title}</h5>
