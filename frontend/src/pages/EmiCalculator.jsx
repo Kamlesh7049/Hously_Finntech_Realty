@@ -1,240 +1,389 @@
-// HomeLoanCalculator.jsx
-import React, { useState, useEffect } from 'react';
-import { Doughnut } from 'react-chartjs-2';
-import { Chart, ArcElement } from 'chart.js';
-// import './HomeLoanCalculator.css';
+import React, { useState, useEffect, useRef } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
 
-Chart.register(ArcElement);
-
-function EmiCalculator() {
-    const [loanAmount, setLoanAmount] = useState(1000000);
-    const [loanTenure, setLoanTenure] = useState(20);
-    const [interestRate, setInterestRate] = useState(6.5);
-    const [emi, setEmi] = useState(0);
-    const [principalAmount, setPrincipalAmount] = useState(0);
-    const [interestPayable, setInterestPayable] = useState(0);
-    const [totalAmountPayable, setTotalAmountPayable] = useState(0);
-    const [showEmiSchedule, setShowEmiSchedule] = useState(false);
+function HomeLoanCalculator() {
+    const [loanAmount, setLoanAmount] = useState(46059000);
+    const [loanDurationYears, setLoanDurationYears] = useState(10);
+    const [loanDurationMonths, setLoanDurationMonths] = useState(0);
+    const [interestRate, setInterestRate] = useState(8.75);
+    const [monthlyEMI, setMonthlyEMI] = useState(0);
+    const [totalPayable, setTotalPayable] = useState(0);
+    const [totalInterest, setTotalInterest] = useState(0);
+    const [pieChartData, setPieChartData] = useState([]);
+    const [durationType, setDurationType] = useState('years');
+    const [isHomeLoanDropdownOpen, setIsHomeLoanDropdownOpen] = useState(false);
+    const homeLoanDropdownRef = useRef(null);
 
     useEffect(() => {
         calculateEMI();
-    }, [loanAmount, loanTenure, interestRate]);
+    }, [loanAmount, loanDurationYears, loanDurationMonths, interestRate, durationType]);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (homeLoanDropdownRef.current && !homeLoanDropdownRef.current.contains(event.target)) {
+                setIsHomeLoanDropdownOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [homeLoanDropdownRef]);
 
     const calculateEMI = () => {
-        const monthlyInterestRate = interestRate / 12 / 100;
-        const numberOfPayments = loanTenure * 12;
-        const emiValue =
-            (loanAmount * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments)) /
-            (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
-
-        setEmi(emiValue ? Math.round(emiValue) : 0);
-        setPrincipalAmount(loanAmount);
-        setInterestPayable(emiValue * numberOfPayments - loanAmount);
-        setTotalAmountPayable(emiValue * numberOfPayments);
-    };
-
-    const handleLoanAmountChange = (event) => {
-        setLoanAmount(Number(event.target.value));
-    };
-
-    const handleLoanTenureChange = (event) => {
-        setLoanTenure(Number(event.target.value));
-    };
-
-    const handleInterestRateChange = (event) => {
-        setInterestRate(Number(event.target.value));
-    };
-
-    const toggleEmiSchedule = () => {
-        setShowEmiSchedule(!showEmiSchedule);
-    };
-
-    const generateEmiSchedule = () => {
-        const monthlyInterestRate = interestRate / 12 / 100;
-        const numberOfPayments = loanTenure * 12;
-        let balance = loanAmount;
-        const schedule = [];
-
-        for (let i = 1; i <= numberOfPayments; i++) {
-            const interestForMonth = balance * monthlyInterestRate;
-            const principalForMonth = emi - interestForMonth;
-            balance -= principalForMonth;
-
-            schedule.push({
-                month: i,
-                year: Math.ceil(i / 12),
-                emi: emi,
-                principal: principalForMonth,
-                interest: interestForMonth,
-                balance: balance > 0 ? balance : 0
-            });
+        let totalMonths = durationType === 'years' ? loanDurationYears * 12 : loanDurationMonths;
+        if (totalMonths <= 0) {
+            setMonthlyEMI(0);
+            setTotalPayable(0);
+            setTotalInterest(0);
+            updatePieChartData(0, 0);
+            return;
         }
 
-        return schedule;
+        const r = interestRate / 12 / 100;
+        const n = totalMonths;
+        let emiValue = 0;
+        let totalPayableValue = 0;
+        let totalInterestValue = 0;
+
+        if (r > 0) {
+            emiValue = (loanAmount * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+            totalPayableValue = emiValue * n;
+            totalInterestValue = totalPayableValue - loanAmount;
+        } else {
+            emiValue = loanAmount / n;
+            totalPayableValue = loanAmount;
+            totalInterestValue = 0;
+        }
+
+        setMonthlyEMI(emiValue.toFixed(0));
+        setTotalPayable(totalPayableValue.toLocaleString('en-IN'));
+        setTotalInterest(totalInterestValue.toLocaleString('en-IN'));
+        updatePieChartData(loanAmount, totalInterestValue);
     };
 
-    const chartData = {
-        labels: ['Principal Amount', 'Interest Payable'],
-        datasets: [
-            {
-                data: [principalAmount, interestPayable],
-                backgroundColor: ['#F44336', '#3F51B5'],
-                hoverBackgroundColor: ['#E57373', '#7986CB'],
-            },
-        ],
+    const updatePieChartData = (principal, interest) => {
+        setPieChartData([
+            { name: 'Principal', value: principal },
+            { name: 'Interest', value: interest },
+        ]);
     };
 
-    const chartOptions = {
-        plugins: {
-            legend: {
-                display: false,
-                position: 'bottom',
-            },
-        },
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        if (name === 'loanAmount') {
+            setLoanAmount(parseInt(value));
+        } else if (name === 'loanDurationYears' && durationType === 'years') {
+            setLoanDurationYears(parseInt(value));
+        } else if (name === 'loanDurationMonths' && durationType === 'months') {
+            setLoanDurationMonths(parseInt(value));
+        } else if (name === 'interestRate') {
+            setInterestRate(parseFloat(value));
+        }
+    };
+
+    const toggleDurationType = (type) => {
+        setDurationType(type);
+    };
+
+    const toggleHomeLoanDropdown = () => {
+        setIsHomeLoanDropdownOpen(!isHomeLoanDropdownOpen);
+    };
+
+    const handleHomeLoanDropdownItemClick = (item) => {
+        console.log(`${item} clicked`);
+        setIsHomeLoanDropdownOpen(false);
+    };
+
+    const pieChartColors = ['#007bff', '#ffc107'];
+
+    const homeLoanSubMenu = [
+        'Loan Against Property',
+        'Business Loan'
+    ];
+
+    const containerStyle = {
+        marginTop: '5px',
+        marginBottom: '5px',
+    };
+
+    const buttonStyle = {
+        margin: '5px',
+        fontSize: '0.9rem', 
+        padding: '0.25rem 0.5rem', 
+    };
+
+    const dropdownToggleStyle = {
+        ...buttonStyle,
+    };
+
+    const dropdownItemStyle = {
+        fontSize: '0.9rem',
+        padding: '0.25rem 0.5rem',
+    };
+
+    const resultBoxStyle = {
+        backgroundColor: '#28a745',
+        color: 'white',
+        padding: '10px', 
+        borderRadius: '0.25rem',
+        textAlign: 'center',
+        marginBottom: '10px', 
+        fontSize: '0.9rem', 
+    };
+
+    const cardStyle = {
+        padding: '10px', // Reduced padding
+        border: '1px solid #dee2e6',
+        borderRadius: '0.25rem',
+    };
+
+    const pieChartContainerStyle = {
+        width: '100%',
+        maxWidth: '180px', // Smaller pie chart
+        height: 'auto',
+    };
+
+    const totalInterestPayableStyle = {
+        fontWeight: 'bold',
+        color: '#dc3545',
+        marginTop: '40px', // Reduced margin
+        fontSize: '0.9rem',
+    };
+
+    const inputLabelStyle = {
+        fontSize: '0.9rem',
+        marginBottom: '0.2rem',
+    };
+
+    const inputGroupTextStyle = {
+        fontSize: '0.9rem',
+    };
+
+    const formControlStyle = {
+        fontSize: '0.9rem',
+        padding: '0.375rem 0.75rem',
+    };
+
+    const formRangeStyle = {
+        fontSize: '0.8rem',
+    };
+
+    const smallTextStyle = {
+        fontSize: '0.75rem',
     };
 
     return (
-        <div className="home-loan-calculator-container">
-            <h1>Home Loan EMI Calculator</h1>
-            <p className="calculator-description">
-            The Home Loan EMI Calculator is a simple yet powerful tool designed to help homebuyers and homeowners in India estimate their monthly loan installments. With a user-friendly interface and accurate calculations, this tool enables better financial planning by providing clear insights into potential home loan repayments.
-
-Make informed property investment decisions with confidence using our trusted EMI calculator. Plan your home-buying journey wisely with Urban Money. Simply enter the required details, and the calculator will instantly compute your EMI amount.
-            </p>
-            <div className="calculator-wrapper">
-                <div className="input-panel">
-                    <h2>Loan Details</h2>
-                    <InputGroup
-                        label="Loan Amount"
-                        id="loanAmount"
-                        min="5"
-                        max="500000"
-                        step="100000"
-                        value={loanAmount}
-                        onChange={handleLoanAmountChange}
-                        suffix="₹"
-                    />
-                    <InputGroup
-                        label="Loan Tenure"
-                        id="loanTenure"
-                        min="5"
-                        max="30"
-                        step="1"
-                        value={loanTenure}
-                        onChange={handleLoanTenureChange}
-                        suffix="Years"
-                    />
-                    <InputGroup
-                        label="Rate of Interest"
-                        id="interestRate"
-                        min="6"
-                        max="20"
-                        step="0.5"
-                        value={interestRate}
-                        onChange={handleInterestRateChange}
-                        suffix="%"
-                    />
-                </div>
-
-                <div className="emi-panel">
-                    <h2>Monthly Loan EMI</h2>
-                    <div className="emi-details">
-                        <p className="emi-value">₹ {emi.toLocaleString()}</p>
-                        <p className="emi-description">Seven Thousand Four Hundred And Fifty Six Rupees</p>
-                    </div>
-                </div>
-
-                <div className="payment-breakdown-panel">
-                    <h2>Payment Breakdown</h2>
-
-                    <div className="chart-container">
-                        <Doughnut data={chartData} options={chartOptions} />
-                    </div>
-
-                    <div className="breakdown-details">
-                        <div className="breakdown-item">
-                            <span className="color-indicator" style={{ backgroundColor: '#F44336' }}></span>
-                            <span className="item-label">Principal Amount</span>
-                            <span className="item-value">₹ {principalAmount.toLocaleString()}</span>
-                        </div>
-                        <div className="breakdown-item">
-                            <span className="color-indicator" style={{ backgroundColor: '#3F51B5' }}></span>
-                            <span className="item-label">Interest Payable</span>
-                            <span className="item-value">₹ {interestPayable.toLocaleString()}</span>
-                        </div>
-                        <div className="breakdown-item">
-                            <span className="item-label">Total Amount Payable</span>
-                            <span className="item-value">₹ {totalAmountPayable.toLocaleString()}</span>
-                        </div>
-                    </div>
-
-                    <button className="view-schedule-button" onClick={toggleEmiSchedule}>
-                        {showEmiSchedule ? "Hide EMI Schedule ↑" : "View EMI Schedule →"}
-                    </button>
-                </div>
+        
+        <div className="container mt-3" style={{ maxWidth: '960px', marginLeft: 'auto', marginRight: 'auto', paddingLeft: '15px', paddingRight: '15px' }}>
+            <div className="text-center mb-2">
+                <h2>Emi-Calculator</h2>
             </div>
 
-            {showEmiSchedule && (
-                <div className="emi-schedule-section">
-                    <h2>EMI Payment Schedule</h2>
-                    <div className="table-responsive">
-                        <table className="emi-schedule-table">
-                            <thead>
-                                <tr>
-                                    <th>Month</th>
-                                    <th>Year</th>
-                                    <th>Principal (₹)</th>
-                                    <th>Interest (₹)</th>
-                                    <th>EMI (₹)</th>
-                                    <th>Balance (₹)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {generateEmiSchedule().map((row, index) => (
-                                    <tr key={index}>
-                                        <td>{row.month}</td>
-                                        <td>{row.year}</td>
-                                        <td>{Math.round(row.principal).toLocaleString()}</td>
-                                        <td>{Math.round(row.interest).toLocaleString()}</td>
-                                        <td>{Math.round(row.emi).toLocaleString()}</td>
-                                        <td>{Math.round(row.balance).toLocaleString()}</td>
-                                    </tr>
+            <div className="row mt-2">
+                <div className="col-md-12">
+                    <div className="d-flex justify-content-center flex-wrap">
+                        <div className="dropdown mx-1 mb-1" ref={homeLoanDropdownRef}>
+                            {/* <button className="btn btn-light dropdown-toggle" type="button" onClick={toggleHomeLoanDropdown} aria-expanded={isHomeLoanDropdownOpen} style={dropdownToggleStyle}>
+                                Home Loan
+                            </button> */}
+                            <ul className={`dropdown-menu ${isHomeLoanDropdownOpen ? 'show' : ''}} style={{ fontSize: '0.9rem' }`}>
+                                {homeLoanSubMenu.map(item => (
+                                    <li key={item}>
+                                        <button className="dropdown-item" type="button" onClick={() => handleHomeLoanDropdownItemClick(item)} style={dropdownItemStyle}>
+                                            {item}
+                                        </button>
+                                    </li>
                                 ))}
-                            </tbody>
-                        </table>
+                            </ul>
+                        </div>
+                        {/* <button className="btn btn-primary mx-1 mb-1" style={buttonStyle}>EMI Calculator</button>
+                        <button className="btn btn-light mx-1 mb-1" style={buttonStyle} >Loan Eligibility Calculator</button>
+                        <button className="btn btn-light mx-1 mb-1" style={buttonStyle}>Foreclosure Calculator </button>
+                        <button className="btn btn-light mx-1 mb-1" style={buttonStyle}>Amortization Calculator </button>
+                        <button className="btn btn-light mx-1 mb-1" style={buttonStyle}>Pre-Payment Calculator</button> */}
                     </div>
                 </div>
-            )}
-        </div>
-    );
-}
+            </div>
 
-function InputGroup({ label, id, min, max, step, value, onChange, suffix }) {
-    return (
-        <div className="input-group">
-            <label htmlFor={id}>{label}</label>
-            <input
-                type="range"
-                id={id}
-                min={min}
-                max={max}
-                step={step}
-                value={value}
-                onChange={onChange}
-            />
-            <div className="input-row">
-                <div className="range-labels">
-                    <span>{min.toLocaleString()}</span>
-                    <span>{max.toLocaleString()}</span>
+            <div className="row mt-3">
+                <div className="col-md-6">
+                    <div className="mb-2">
+                        <label htmlFor="loanAmount" className="form-label" style={inputLabelStyle}>Loan amount</label>
+                        <div className="input-group">
+                            <span className="input-group-text" style={inputGroupTextStyle}>₹</span>
+                            <input
+                                type="number"
+                                className="form-control"
+                                id="loanAmount"
+                                name="loanAmount"
+                                value={loanAmount}
+                                onChange={handleInputChange}
+                                style={formControlStyle}
+                            />
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <small style={smallTextStyle}>₹5,00,000</small>
+                            <small style={smallTextStyle}>₹5,00,00,000</small>
+                        </div>
+                        <input
+                            type="range"
+                            className="form-range"
+                            min="500000"
+                            max="50000000"
+                            value={loanAmount}
+                            onChange={handleInputChange}
+                            name="loanAmount"
+                            style={formRangeStyle}
+                        />
+                    </div>
+
+                    <div className="mb-2">
+                        <label htmlFor="loanDurationYears" className="form-label" style={inputLabelStyle}>Loan duration</label>
+                        <div className="input-group">
+                            <input
+                                type="number"
+                                className="form-control"
+                                id="loanDurationYears"
+                                name={durationType === 'years' ? "loanDurationYears" : "loanDurationMonths"}
+                                value={durationType === 'years' ? loanDurationYears : loanDurationMonths}
+                                onChange={handleInputChange}
+                                style={formControlStyle}
+                            />
+                            <button
+                                type="button"
+                                className={`btn ${durationType === 'years' ? 'btn-secondary' : 'btn-outline-secondary'}`}
+                                onClick={() => toggleDurationType('years')}
+                                style={{ fontSize: '0.8rem', padding: '0.2rem 0.4rem' }}
+                            >
+                                Yr
+                            </button>
+                            <button
+                                type="button"
+                                className={`btn ${durationType === 'months' ? 'btn-secondary' : 'btn-outline-secondary'}`}
+                                onClick={() => toggleDurationType('months')}
+                                style={{ fontSize: '0.8rem', padding: '0.2rem 0.4rem' }}
+                            >
+                                Mo
+                            </button>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <small style={smallTextStyle}>1 Year</small>
+                            <small style={smallTextStyle}>30 Years</small>
+                        </div>
+                        {durationType === 'years' && (
+                            <input
+                                type="range"
+                                className="form-range"
+                                min="1"
+                                max="30"
+                                value={loanDurationYears}
+                                onChange={handleInputChange}
+                                name="loanDurationYears"
+                                style={formRangeStyle}
+                            />
+                        )}
+                    
+                        {durationType === 'months' && (
+                            <input
+                                type="range"
+                                className="form-range"
+                                min="1"
+                                max="360"
+                                value={loanDurationMonths}
+                                onChange={handleInputChange}
+                                name="loanDurationMonths"
+                                style={formRangeStyle}
+                            />
+                        )}
+                    </div>
+
+                    <div className="mb-2">
+                        <label htmlFor="interestRate" className="form-label" style={inputLabelStyle}>Rate of interest</label>
+                        <div className="input-group">
+                            <input
+                                type="number"
+                                className="form-control"
+                                id="interestRate"
+                                name="interestRate"
+                                value={interestRate}
+                                onChange={handleInputChange}
+                                style={formControlStyle}
+                            />
+                            <span className="input-group-text" style={inputGroupTextStyle}>%</span>
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <small style={smallTextStyle}>8.75% p.a</small>
+                            <small style={smallTextStyle}>12% p.a</small>
+                        </div>
+                        <input
+                            type="range"
+                            className="form-range"
+                            min="8.75"
+                            max="12"
+                            step="0.01"
+                            value={interestRate}
+                            onChange={handleInputChange}
+                            name="interestRate"
+                            style={formRangeStyle}
+                        />
+                    </div>
                 </div>
-                <span className="input-value">
-                    {suffix === "₹" ? suffix + ' ' : ''}
-                    {Number(value).toLocaleString()}
-                    {suffix && suffix !== "₹" ? ' ' + suffix : ''}
-                </span>
+
+                <div className="col-md-6">
+                    <div className="bg-success text-white p-2 rounded text-center" style={resultBoxStyle}>
+                        <h4>Monthly EMI</h4>
+                        <h2>₹{monthlyEMI}*</h2>
+                    </div>
+
+                    <div className="mt-2" style={{ minHeight: '250px', padding: '10px', border: '1px solid #dee2e6', borderRadius: '0.25rem' }}>
+                        <div className="d-flex flex-column align-items-center mb-2">
+                            <div>
+                                <p className="mb-1" style={{ fontWeight: 'bold', color: '#28a745', fontSize: '0.9rem' }}>Total Amount Payable</p>
+                                <h4 className="mb-0" style={{ color: '#28a745', fontSize: '1rem' }}>₹{totalPayable}*</h4>
+                            </div>
+                            {pieChartData.length > 0 && (
+                                <div style={{ width: '120px', height: '120px', marginTop: '10px' }}>
+                                    <PieChart width={120} height={120}>
+                                        <Pie
+                                            data={pieChartData}
+                                            cx="50%"
+                                            cy="50%"
+                                            outerRadius={60}
+                                            fill="#8884d8"
+                                            dataKey="value"
+                                            nameKey="name"
+                                            label={false}
+                                        >
+                                            {pieChartData.map((entry, index) => (
+                                                <Cell key={`cell-${index}} fill={pieChartColors[index % pieChartColors.length]`} />
+                                            ))}
+                                        </Pie>
+                                    </PieChart>
+                                    <div style={{ fontSize: '0.7rem', textAlign: 'center' }}>
+                                        <span style={{ display: 'inline-block', width: '8px', height: '8px', backgroundColor: '#007bff', marginRight: '3px' }}></span> Principal
+                                        <br />
+                                        <span style={{ display: 'inline-block', width: '8px', height: '8px', backgroundColor: '#ffc107', marginRight: '3px' }}></span> Interest
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        <div className="text-center">
+                            <p className="mb-1" style={totalInterestPayableStyle}>Total Interest Payable</p>
+                            <h4 className="mb-0" style={{ color: '#dc3545', fontSize: '1rem', }}>₹{totalInterest}*</h4>
+                        </div>
+                    </div>
+
+                    <div className="text-center mt-3">
+                        <button className="btn btn-primary" style={{ fontSize: '0.9rem' }}>Apply Now</button>
+                    </div>
+                    
+                </div>
+            
             </div>
         </div>
     );
 }
 
-export default EmiCalculator;
+export default HomeLoanCalculator;

@@ -90,9 +90,9 @@ const ChatSupport = () => {
 const LoanOffers = () => {
   const loanData = [
     { title: "Home Loan", description: "Instant approval at lowest interest rates", rate: "8.35%", bgColor: "#0074D9", icon: <FaHome size={30} color="#0074D9" /> },
-    { title: "Loan Against Property", description: "Lowest interest rate", rate: "9.2%", bgColor: "#FFD700", icon: <FaBuilding size={30} color="#FFD700" /> },
+    { title: "Loan Against Property", description: "Lowest interest rate", rate: "9.2%", bgColor: "#0074D9", icon: <FaBuilding size={30} color="#0074D9" /> },
     { title: "Balance-Transfer Loan", description: "Paperless process at low rate", rate: "10.49%", bgColor: "#0074D9", icon: <FaExchangeAlt size={30} color="#0074D9" /> },
-    { title: "Business Loan", description: "Interest rate starting from", rate: "14%", bgColor: "#FFD700", icon: <FaBriefcase size={30} color="#FFD700" /> },
+    { title: "Business Loan", description: "Interest rate starting from", rate: "14%", bgColor: "#0074D9", icon: <FaBriefcase size={30} color="#0074D9" /> },
   ];
 
   const settings = {
@@ -122,7 +122,7 @@ const LoanOffers = () => {
               <div className="mb-3">{loan.icon}</div>
               <h5 className="fw-bold">{loan.title}</h5>
               <p className="text-muted">{loan.description}</p>
-              <div className="py-2 px-3 rounded text-white" style={{ backgroundColor: loan.bgColor }}>
+              <div className="py-2 px-3 rounded text-white" style={{ backgroundColor: "#0074D9" }}>
                 <FaPercentage className="me-2" size={20} /> {loan.rate}
               </div>
             </Card>

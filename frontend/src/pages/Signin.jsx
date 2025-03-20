@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import { loginUser } from "../Redux/Slice/authSlice";
 import { Button, Modal } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function Signin({ setShowLogin }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { loading, error } = useSelector((state) => state.auth); // Assuming auth slice has `loading` and `error`
-
-    const [loginData, setLoginData] = useState({
-        userName: "",
-        password: "",
-    });
+    
+    const [loginData, setLoginData] = useState({ userName: "", password: "" });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
     const handleLoginInput = (e) => {
         setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -20,30 +18,42 @@ function Signin({ setShowLogin }) {
 
     const handleLoginSubmit = async () => {
         if (!loginData.userName || !loginData.password) {
-            alert("Please enter both username and password.");
+            setError("Please enter both username and password.");
             return;
         }
 
+        setLoading(true);
+        setError("");
 
         try {
-            const res = await dispatch(loginUser(loginData)).unwrap(); // `unwrap()` to catch errors properly
+            const res = await dispatch(loginUser(loginData)).unwrap();
             if (res.success) {
-                navigate("/user-dashboard"); // Redirect to dashboard on success
-                handleCloseLogin();
+                if (typeof setShowLogin === "function") {
+                    setShowLogin(false); // Close modal safely
+                }
+                navigate("/user-dashboard");
+            } else {
+                setError(res.message || "Login failed, please try again.");
             }
         } catch (err) {
-            console.error("Login failed:", err);
+            setError(err.message || "An error occurred during login.");
+        } finally {
+            setLoading(false);
         }
     };
 
     const handleCloseLogin = () => {
-        setShowLogin(false);
+        if (typeof setShowLogin === "function") {
+            setShowLogin(false);
+        }
         setLoginData({ userName: "", password: "" });
+        setError("");
     };
 
     return (
         <div>
             <p style={{ marginBottom: "15px", color: "#6c757d" }}>Admin Area for managing your website</p>
+            
             <div className="form-group mb-3">
                 <label htmlFor="admin-userName" style={{ fontWeight: "500" }}>Username:</label>
                 <input
@@ -55,6 +65,7 @@ function Signin({ setShowLogin }) {
                     placeholder="Enter username"
                 />
             </div>
+
             <div className="form-group">
                 <label htmlFor="admin-password" style={{ fontWeight: "500" }}>Password:</label>
                 <input
@@ -66,7 +77,9 @@ function Signin({ setShowLogin }) {
                     placeholder="Enter password"
                 />
             </div>
+
             {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
+
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleCloseLogin} disabled={loading}>
                     Close

@@ -1,204 +1,155 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
+function EligibilityCalculatorCreative() {
+    const [netIncome, setNetIncome] = useState(45000);
+    const [monthlyObligations, setMonthlyObligations] = useState(1);
+    const [interestRate, setInterestRate] = useState(8.75);
+    const [tenureYears, setTenureYears] = useState(10);
+    const [loanEligibility, setLoanEligibility] = useState(0);
+    const [emi, setEmi] = useState(0);
+    const [tenureUnit, setTenureUnit] = useState('years');
 
-const EligibilityCalculator = () => {
-    const [monthlyIncome, setMonthlyIncome] = useState(50000);
-    const [tenure, setTenure] = useState(1);
-    const [interestRate, setInterestRate] = useState(6);
-    const [otherEMI, setOtherEMI] = useState(10000);
-    const [eligibleLoanAmount, setEligibleLoanAmount] = useState(0);
-    const [maxEMI, setMaxEMI] = useState(0);
+    const calculateEligibility = () => {
+        // This is a simplified example, replace with actual logic
+        const disposableIncome = netIncome - monthlyObligations;
+        const eligibility = disposableIncome * 400; // Adjusted multiplier for potentially larger numbers
+        setLoanEligibility(Math.max(0, Math.round(eligibility)));
+
+        const principal = Math.max(0, Math.round(eligibility));
+        const ratePerMonth = interestRate / 1200;
+        const tenureInMonths = tenureUnit === 'years' ? tenureYears * 12 : tenureYears;
+        let emiValue = 0;
+
+        if (ratePerMonth > 0) {
+            emiValue = (principal * ratePerMonth * Math.pow(1 + ratePerMonth, tenureInMonths)) / (Math.pow(1 + ratePerMonth, tenureInMonths) - 1);
+        } else if (tenureInMonths > 0) {
+            emiValue = principal / tenureInMonths;
+        }
+        setEmi(emiValue.toFixed(0));
+    };
 
     useEffect(() => {
-        const calculateLoanDetails = () => {
-            const calculatedMaxEMI = 0.25 * monthlyIncome;
-            const calculatedLoanAmount = (monthlyIncome * tenure * 12) - (otherEMI * tenure * 12);
+        calculateEligibility();
+    }, [netIncome, monthlyObligations, interestRate, tenureYears, tenureUnit]);
 
-            setMaxEMI(calculatedMaxEMI);
-            setEligibleLoanAmount(calculatedLoanAmount);
-        };
+    const handleInputChange = (e) => {
+        const { name, value, type } = e.target;
+        const parsedValue = type === 'number' ? parseFloat(value) : value;
 
-        calculateLoanDetails();
-    }, [monthlyIncome, tenure, interestRate, otherEMI]);
+        switch (name) {
+            case 'netIncome':
+                setNetIncome(parsedValue);
+                break;
+            case 'monthlyObligations':
+                setMonthlyObligations(parsedValue);
+                break;
+            case 'interestRate':
+                setInterestRate(parsedValue);
+                break;
+            case 'tenureYears':
+                setTenureYears(parseInt(value, 10));
+                break;
+            default:
+                break;
+        }
+    };
 
-    const data = [
-        { name: 'Maturity Value', value: eligibleLoanAmount },
-        { name: 'Maximum EMI', value: maxEMI },
-        { name: 'Monthly Income', value: monthlyIncome },
-    ];
+    const handleTenureUnitChange = (unit) => {
+        setTenureUnit(unit);
+    };
 
     return (
-        <div style={{ fontFamily: 'Arial, sans-serif' }}>
-            <style>
-                {`
-                .container {
-                    max-width: 900px;
-                    margin: auto;
-                    padding: 20px;
-                }
-                .row {
-                    display: flex;
-                    flex-wrap: wrap;
-                    margin-right: -15px;
-                    margin-left: -15px;
-                }
-                .col-12, .col-sm-12, .col-md-4 {
-                    padding-right: 15px;
-                    padding-left: 15px;
-                    box-sizing: border-box;
-                }
-                .col-12 {
-                  flex: 0 0 100%;
-                  max-width: 100%;
-                }
-                @media (min-width: 576px) {
-                  .col-sm-12 {
-                    flex: 0 0 100%;
-                    max-width: 100%;
-                  }
-                }
-                @media (min-width: 768px) {
-                  .col-md-4 {
-                    flex: 0 0 33.333333%;
-                    max-width: 33.333333%;
-                  }
-                }
-                .card {
-                    border-radius: 10px;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                    margin-bottom: 20px;
-                    padding: 20px;
-                    height: 100%;
-                    display: flex;
-                    flex-direction: column;
-                }
-                .form-control {
-                    width: 100%;
-                    padding: 8px;
-                    margin-bottom: 10px;
-                    border: 1px solid #ced4da;
-                    border-radius: 4px;
-                    box-sizing: border-box;
-                }
-                .eligibility-card {
-                    background-color: #f8f9fa;
-                    text-align: center;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                }
-                .eligibility-card h4 {
-                    color: #28a745;
-                }
-                .eligibility-card h5 {
-                    color: #007bff;
-                }
-                .legend-item {
-                    display: flex;
-                    align-items: center;
-                    margin-right: 10px;
-                    font-size: 12px;
-                }
-                .legend-color {
-                    width: 12px;
-                    height: 12px;
-                    margin-right: 5px;
-                    border-radius: 50%;
-                }
-            `}
-            </style>
-            <div className="container">
-                <h2 className="mb-4 text-center">Loan Eligibility Calculator</h2>
-                <p className="text-center">Calculate your home loan eligibility based on your income and expenses.</p>
+        <div className="container mt-5">
+            <div className="row justify-content-center">
+                <div className="col-lg-8 col-md-10">
+                    <div className="card shadow">
+                        <div className="card-body p-4">
+                            <h2 className="text-center mb-4">Home Loan Eligibility Calculator</h2>
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <div className="mb-3">
+                                        <label htmlFor="netIncome" className="form-label">Net income (monthly)</label>
+                                        <div className="input-group">
+                                            <span className="input-group-text">₹</span>
+                                            <input type="number" className="form-control" id="netIncome" name="netIncome" value={netIncome} onChange={handleInputChange} />
+                                        </div>
+                                        <input type="range" className="form-range" min="0" max="100000" value={netIncome} name="netIncome" onChange={handleInputChange} />
+                                        <div className="d-flex justify-content-between">
+                                            <small>₹0</small>
+                                            <small>₹1,00,000</small>
+                                        </div>
+                                    </div>
 
-                <div className="row">
-                    {/* Section 1: Input Form */}
-                    <div className="col-12 col-sm-12 col-md-4">
-                        <div className="card">
-                            <h4>Enter Your Details</h4>
-                            <label htmlFor="monthlyIncome">Monthly Income</label>
-                            <input
-                                type="number"
-                                className="form-control"
-                                id="monthlyIncome"
-                                value={monthlyIncome}
-                                onChange={(e) => setMonthlyIncome(parseInt(e.target.value))}
-                            />
-                            <label htmlFor="tenure">Tenure (Years)</label>
-                            <input
-                                type="number"
-                                className="form-control"
-                                id="tenure"
-                                value={tenure}
-                                onChange={(e) => setTenure(parseInt(e.target.value))}
-                            />
-                            <label htmlFor="interestRate">Interest Rate (%)</label>
-                            <input
-                                type="number"
-                                className="form-control"
-                                id="interestRate"
-                                value={interestRate}
-                                onChange={(e) => setInterestRate(parseFloat(e.target.value))}
-                            />
-                            <label htmlFor="otherEMI">Other EMI (Monthly)</label>
-                            <input
-                                type="number"
-                                className="form-control"
-                                id="otherEMI"
-                                value={otherEMI}
-                                onChange={(e) => setOtherEMI(parseInt(e.target.value))}
-                            />
-                        </div>
-                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="monthlyObligations" className="form-label">Monthly obligations</label>
+                                        <div className="input-group">
+                                            <span className="input-group-text">₹</span>
+                                            <input type="number" className="form-control" id="monthlyObligations" name="monthlyObligations" value={monthlyObligations} onChange={handleInputChange} />
+                                        </div>
+                                        <input type="range" className="form-range" min="0" max="50000" value={monthlyObligations} name="monthlyObligations" onChange={handleInputChange} />
+                                        <div className="d-flex justify-content-between">
+                                            <small>₹0</small>
+                                            <small>₹50,000</small>
+                                        </div>
+                                    </div>
 
-                    {/* Section 2: Loan Eligibility Output */}
-                    <div className="col-12 col-sm-12 col-md-4">
-                        <div className="card eligibility-card">
-                            <h4>Your Loan Eligibility</h4>
-                            <p>Eligible Loan Amount:</p>
-                            <h5>₹ {eligibleLoanAmount.toLocaleString()}</h5>
-                            <p>Maximum EMI:</p>
-                            <h5>₹ {maxEMI.toLocaleString()}</h5>
-                            <p>For Tenure of {tenure} Years</p>
-                            <div></div>
-                        </div>
-                    </div>
+                                    <div className="mb-3">
+                                        <label htmlFor="interestRate" className="form-label">Rate of interest</label>
+                                        <div className="input-group">
+                                            <input type="number" className="form-control" id="interestRate" name="interestRate" value={interestRate} onChange={handleInputChange} />
+                                            <span className="input-group-text">%</span>
+                                        </div>
+                                        <input type="range" className="form-range" min="7" max="13" step="0.01" value={interestRate} name="interestRate" onChange={handleInputChange} />
+                                        <div className="d-flex justify-content-between">
+                                            <small>7% p.a</small>
+                                            <small>13% p.a</small>
+                                        </div>
+                                    </div>
 
-                    {/* Section 3: Donut Chart */}
-                    <div className="col-12 col-sm-12 col-md-4">
-                        <div className="card">
-                            <h4>Payment Breakdown</h4>
-                            <ResponsiveContainer width="100%" height={200}>
-                                <PieChart>
-                                    <Pie
-                                        data={data}
-                                        cx="50%"
-                                        cy="50%"
-                                        outerRadius={70}
-                                        innerRadius={40}
-                                        dataKey="value"
-                                        isAnimationActive={false}
-                                    >
-                                        {data.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                        ))}
-                                    </Pie>
-                                </PieChart>
-                            </ResponsiveContainer>
-                            <div className="d-flex justify-content-center mt-3">
-                                {data.map((entry, index) => (
-                                    <span key={index} className="legend-item">
-                                        <span
-                                            className="legend-color"
-                                            style={{ backgroundColor: COLORS[index % COLORS.length] }}
-                                        ></span>
-                                        {entry.name}
-                                    </span>
-                                ))}
+                                    <div className="mb-3">
+                                        <label htmlFor="tenureYears" className="form-label">Tenure</label>
+                                        <div className="input-group">
+                                            <input type="number" className="form-control" id="tenureYears" name="tenureYears" value={tenureYears} onChange={handleInputChange} />
+                                            <button
+                                                type="button"
+                                                className={`btn ${tenureUnit === 'years' ? 'btn-primary' : 'btn-outline-primary'} btn-sm`}
+                                                onClick={() => handleTenureUnitChange('years')}
+                                            >
+                                                Yr
+                                            </button>
+                                            <button
+                                                type="button"
+                                                className={`btn ${tenureUnit === 'months' ? 'btn-primary' : 'btn-outline-primary'} btn-sm`}
+                                                onClick={() => handleTenureUnitChange('months')}
+                                            >
+                                                Mo
+                                            </button>
+                                        </div>
+                                        <input type="range" className="form-range" min="1" max="30" value={tenureYears} name="tenureYears" onChange={handleInputChange} />
+                                        <div className="d-flex justify-content-between">
+                                            <small>1 Year</small>
+                                            <small>30 Years</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="col-md-6">
+                                    <div className="bg-light p-3 rounded">
+                                        <h4 className="text-center mb-3">Congratulations!</h4>
+                                        <p className="text-center">You are eligible for a Home Loan upto</p>
+                                        <div className="bg-success text-white p-3 rounded text-center mb-3">
+                                            <h5 className="mb-0">Total loan amount</h5>
+                                            <h2 className="mb-0">₹{loanEligibility.toLocaleString('en-IN')}*</h2>
+                                            <hr className="my-2 bg-light" />
+                                            <h5 className="mb-0">EMI</h5>
+                                            <h2 className="mb-0">₹{emi}*</h2>
+                                        </div>
+                                        <div className="d-grid">
+                                            <button className="btn btn-primary">Apply Now</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -206,6 +157,6 @@ const EligibilityCalculator = () => {
             </div>
         </div>
     );
-};
+}
 
-export default  EligibilityCalculator ;
+export default EligibilityCalculatorCreative;
