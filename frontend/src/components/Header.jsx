@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { FaBars, FaTimes, FaHome, FaUniversity, FaCalculator, FaGift, FaEnvelope, FaInfoCircle, FaUserCircle } from "react-icons/fa";
 import Signup from "../pages/Signup";
 import Signin from "../pages/Signin";
+import logo from "../assets/images/Finn-logo.png"; // ✅ Correct Import
 
 const Header = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -58,7 +59,7 @@ const Header = () => {
       <Navbar expand="lg" style={{ backgroundColor: "#f8f9fa", padding: "15px", boxShadow: "0px 4px 6px rgba(0,0,0,0.1)", position: "sticky", top: 0, zIndex: 999 }}>
         <Container className="d-flex justify-content-between align-items-center">
           <Navbar.Brand as={Link} to="/">
-            <img src="./src/assets/images/Finn-logo.png" alt="Logo" width="180" height="30" />
+            <img src={logo} alt="Logo" width="180" height="30" /> {/* ✅ Fixed Logo */}
           </Navbar.Brand>
 
           <Button onClick={handleToggleSidebar} style={{ background: "none", border: "none", fontSize: "1.8rem", cursor: "pointer", color: "#000" }}>
@@ -67,6 +68,7 @@ const Header = () => {
         </Container>
       </Navbar>
 
+      {/* Sidebar */}
       <div style={{
         position: "fixed",
         bottom: isMovieView ? (isSidebarOpen ? "0" : "-100vh") : "auto",
@@ -114,11 +116,13 @@ const Header = () => {
         </Nav>
       </div>
 
+      {/* Login Modal */}
       <Modal show={showLogin} onHide={() => setShowLogin(false)} centered>
         <Modal.Header closeButton><Modal.Title>Admin Login</Modal.Title></Modal.Header>
         <Modal.Body><Signin onClose={() => setShowLogin(false)} /></Modal.Body>
       </Modal>
 
+      {/* Signup Modal */}
       <Modal show={showSignup} onHide={() => setShowSignup(false)} centered>
         <Modal.Header closeButton><Modal.Title>Sign Up</Modal.Title></Modal.Header>
         <Modal.Body><Signup onClose={() => setShowSignup(false)} /></Modal.Body>
