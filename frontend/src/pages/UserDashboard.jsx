@@ -2,21 +2,21 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaBell, FaUserCircle } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
-import { Line, Bar } from "react-chartjs-2";
 import { Chart, CategoryScale } from "chart.js";
-import "chart.js/auto";
-import { Modal } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../Redux/Slice/authSlice";
-import OfferForm from "./OfferForm";
+import ShowOffers from "../components/ShowOffers";
 
 Chart.register(CategoryScale);
 
 const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [showOffer, setShowOffer] = useState(false);
+  const [showOffer, setShowOffer] = useState(() => {
+    return localStorage.getItem("showOffer") === "true";
+  });
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const profileMenuRef = useRef(null);
@@ -31,7 +31,6 @@ const Dashboard = () => {
 
   const handleLogout = async () => {
     const res = await dispatch(logoutUser());
-    console.log(res);
     if (res.payload.success) {
       navigate("/");
     }
@@ -49,19 +48,23 @@ const Dashboard = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [profileMenuRef]);
+  }, []);
 
-  // Menu items with their respective routes
+  // Persist showOffer state in localStorage
+  useEffect(() => {
+    localStorage.setItem("showOffer", showOffer);
+  }, [showOffer]);
+
   const menuItems = [
     { name: "Dashboard", path: "/user-dashboard" },
     { name: "Home", path: "/ahome" },
     { name: "Offer", path: "/offer", isSpecial: true },
     { name: "User Management", path: "/employees" },
-    { name: "Content Upadates", path: "/finance" },
-    { name: "Loan Calculator Mangement", path: "/performance" },
+    { name: "Content Updates", path: "/finance" },
+    { name: "Loan Calculator Management", path: "/performance" },
     { name: "FAQs Management", path: "/projects" },
-    { name: "Lead MAnagement & Inquiry Tracking", path: "/reports" },
-    { name: "Automated Notification ", path: "/manage-clients" }
+    { name: "Lead Management & Inquiry Tracking", path: "/reports" },
+    { name: "Automated Notification", path: "/manage-clients" }
   ];
 
   return (
@@ -94,7 +97,7 @@ const Dashboard = () => {
             >
               {sidebarOpen ? (
                 item.isSpecial ? (
-                  <span onClick={() => setShowOffer(true)}>{item.name}</span>
+                  <span onClick={() => setShowOffer(!showOffer)}>{item.name}</span>
                 ) : (
                   <Link to={item.path} style={{ textDecoration: 'none', color: 'inherit' }}>
                     {item.name}
@@ -107,16 +110,6 @@ const Dashboard = () => {
           ))}
         </ul>
       </aside>
-
-      {/* Offer Modal */}
-      <Modal show={showOffer} onHide={() => setShowOffer(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Create Offer</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <OfferForm setShowoffer={setShowOffer} />
-        </Modal.Body>
-      </Modal>
 
       {/* Main Content */}
       <main style={{ flex: 1, padding: "20px", overflowY: "auto" }}>
@@ -139,11 +132,11 @@ const Dashboard = () => {
             <FaBell style={{ marginRight: "15px", cursor: "pointer" }} />
             <FiSettings style={{ marginRight: "15px", cursor: "pointer" }} />
             <div style={{ position: "relative" }} ref={profileMenuRef}>
-              <FaUserCircle 
-                style={{ fontSize: "20px", cursor: "pointer" }} 
+              <FaUserCircle
+                style={{ fontSize: "20px", cursor: "pointer" }}
                 onClick={toggleProfileMenu}
               />
-              
+
               {/* Profile Dropdown Menu */}
               {profileMenuOpen && (
                 <div
@@ -159,25 +152,6 @@ const Dashboard = () => {
                     zIndex: 1000,
                   }}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      padding: "15px",
-                      borderBottom: "1px solid #eee",
-                    }}
-                  >
-                    <img
-                      src="https://via.placeholder.com/40"
-                      alt="Profile"
-                      style={{ width: "40px", height: "40px", borderRadius: "50%", marginRight: "10px" }}
-                    />
-                    <div>
-                      <div style={{ fontWeight: "bold" }}>Admin</div>
-                      <div style={{ fontSize: "12px", color: "#777" }}>Owner</div>
-                    </div>
-                  </div>
-                  
                   <ul
                     style={{
                       listStyle: "none",
@@ -185,46 +159,6 @@ const Dashboard = () => {
                       margin: "0",
                     }}
                   >
-                    {[
-                      { icon: "👤", text: "Profile" },
-                      { icon: "🕒", text: "My Project", badge: "4" },
-                      { icon: "✉️", text: "Message" },
-                      { icon: "🔔", text: "Notification" },
-                      { icon: "⚙️", text: "Settings" },
-                    ].map((item, index) => (
-                      <li
-                        key={index}
-                        style={{
-                          padding: "10px 15px",
-                          borderBottom: index === 4 ? "none" : "1px solid #eee",
-                          cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                        onMouseEnter={(e) => (e.target.style.backgroundColor = "#f5f5f5")}
-                        onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
-                      >
-                        <span style={{ marginRight: "10px", fontSize: "16px" }}>{item.icon}</span>
-                        <span>{item.text}</span>
-                        {item.badge && (
-                          <span
-                            style={{
-                              marginLeft: "auto",
-                              background: "#ddd",
-                              borderRadius: "50%",
-                              width: "20px",
-                              height: "20px",
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              fontSize: "12px",
-                            }}
-                          >
-                            {item.badge}
-                          </span>
-                        )}
-                      </li>
-                    ))}
                     <li
                       style={{
                         padding: "10px 15px",
@@ -234,8 +168,6 @@ const Dashboard = () => {
                         alignItems: "center",
                         color: "#dc3545",
                       }}
-                      onMouseEnter={(e) => (e.target.style.backgroundColor = "#f5f5f5")}
-                      onMouseLeave={(e) => (e.target.style.backgroundColor = "transparent")}
                       onClick={handleLogout}
                     >
                       <span style={{ marginRight: "10px", fontSize: "16px" }}>🚪</span>
@@ -248,26 +180,8 @@ const Dashboard = () => {
           </div>
         </header>
 
-        {/* Dashboard Stats */}
-        <section style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", marginTop: "20px" }}>
-          {["Total Deposit", "Total Expenses", "Total Earning"].map((title, index) => (
-            <div
-              key={index}
-              style={{
-                background: "#fff",
-                padding: "20px",
-                borderRadius: "10px",
-                boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-                textAlign: "center",
-                flex: "1 1 30%",
-                margin: "10px",
-                minWidth: "250px",
-              }}
-            >
-              {title} <h3>${index === 2 ? "6,743" : "1200"}</h3>
-            </div>
-          ))}
-        </section>
+        {/* Show Offers when clicked */}
+        {showOffer && <ShowOffers />}
       </main>
     </div>
   );
