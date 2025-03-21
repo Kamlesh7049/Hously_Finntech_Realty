@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import talkToUsImg from "../assets/images/talktous.png";
 
 // 🎯 Talk to Us Floating Button Component
 const TalkToUs = () => {
@@ -24,12 +25,20 @@ const TalkToUs = () => {
           borderRadius: "25px",
           fontSize: "14px",
           cursor: "pointer",
-          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)"
+          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
         }}
         onClick={handleShow}
       >
-        <img src="./src/assets/images/talktous.png" alt="Talk to us" style={{ width: "30px", marginRight: "5px" }} />
-        <span className="fw-bold" style={{ color: "#0074D9" }}>Talk to us</span>
+        {/* <img src="/images/talktous.png" alt="Talk to us" style={{ width: "30px", marginRight: "5px" }} /> */}
+        <img
+          src={talkToUsImg}
+          alt="Talk to us"
+          style={{ width: "30px", marginRight: "5px" }}
+        />
+
+        <span className="fw-bold" style={{ color: "#0074D9" }}>
+          Talk to us
+        </span>
       </div>
 
       {/* Modal */}
@@ -42,7 +51,11 @@ const TalkToUs = () => {
           <Button variant="primary" href="tel:+919999999999" className="w-100">
             📞 Call Us
           </Button>
-          <Button variant="success" href="https://wa.me/919999999999" className="w-100 mt-2">
+          <Button
+            variant="success"
+            href="https://wa.me/919999999999"
+            className="w-100 mt-2"
+          >
             💬 Chat on WhatsApp
           </Button>
         </Modal.Body>

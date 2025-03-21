@@ -39,6 +39,8 @@ export const loginUser = createAsyncThunk("/login/user", async (data, { rejectWi
 export const logoutUser = createAsyncThunk("/logout", async (_, { rejectWithValue }) => {
   try {
     const res = await axiosInstance.get("/auth/user/logout");
+
+    console.log(res);
     toast.success(res?.data?.msg || "Logged out successfully!");
 
     // ✅ Remove tokens and user data on logout
