@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { FaBars, FaTimes, FaHome, FaUniversity, FaCalculator, FaGift, FaEnvelope, FaInfoCircle, FaUserCircle } from "react-icons/fa";
 import Signup from "../pages/Signup";
 import Signin from "../pages/Signin";
-import logo from "../assets/images/Finn-logo.png"; 
+import logo from "../assets/images/Finn-logo.png"; // ✅ Correct Import
 
 const Header = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -59,7 +59,7 @@ const Header = () => {
       <Navbar expand="lg" style={{ backgroundColor: "#f8f9fa", padding: "15px", boxShadow: "0px 4px 6px rgba(0,0,0,0.1)", position: "sticky", top: 0, zIndex: 999 }}>
         <Container className="d-flex justify-content-between align-items-center">
           <Navbar.Brand as={Link} to="/">
-            <img src={logo} alt="Logo" width="180" height="30" />
+            <img src={logo} alt="Logo" width="180" height="30" /> {/* ✅ Fixed Logo */}
           </Navbar.Brand>
 
           <Button onClick={handleToggleSidebar} style={{ background: "none", border: "none", fontSize: "1.8rem", cursor: "pointer", color: "#000" }}>
@@ -89,15 +89,15 @@ const Header = () => {
         <Nav className="d-flex flex-column mt-5">
           {menuItems.map((item, index) => (
             item.subMenu ? (
-              <NavDropdown key={index} title={<span className="menu-title">{item.icon} {item.name}</span>}>
+              <NavDropdown key={index} title={<span style={{ display: "flex", alignItems: "center", gap: "10px", fontWeight: "bold", fontSize: "18px", color: "#000" }}>{item.icon} {item.name}</span>}>
                 {item.subMenu.map((subItem, subIndex) => (
-                  <NavDropdown.Item as={Link} to={subItem.link} key={subIndex} onClick={handleToggleSidebar} className="submenu-item">
+                  <NavDropdown.Item as={Link} to={subItem.link} key={subIndex} onClick={handleToggleSidebar} style={{ fontSize: "16px", fontWeight: "600", padding: "10px 15px", transition: "background-color 0.3s ease" }}>
                     {subItem.name}
                   </NavDropdown.Item>
                 ))}
               </NavDropdown>
             ) : (
-              <Nav.Link key={index} as={Link} to={item.link} onClick={handleToggleSidebar} className="menu-item">
+              <Nav.Link key={index} as={Link} to={item.link} onClick={handleToggleSidebar} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "15px", fontSize: "18px", fontWeight: "600", color: "#000", borderRadius: "8px", transition: "background-color 0.3s ease" }}>
                 {item.icon} {item.name}
               </Nav.Link>
             )
@@ -109,8 +109,8 @@ const Header = () => {
             </Button>
           ) : (
             <>
-              <Button className="login-btn" onClick={() => { setShowLogin(true); handleToggleSidebar(); }}>Login</Button>
-              <Button className="signup-btn" onClick={() => { setShowSignup(true); handleToggleSidebar(); }}>Sign Up</Button>
+              <Button className="mt-4" onClick={() => { setShowLogin(true); handleToggleSidebar(); }}>Login</Button>
+              <Button onClick={() => { setShowSignup(true); handleToggleSidebar(); }}>Sign Up</Button>
             </>
           )}
         </Nav>
@@ -127,35 +127,6 @@ const Header = () => {
         <Modal.Header closeButton><Modal.Title>Sign Up</Modal.Title></Modal.Header>
         <Modal.Body><Signup onClose={() => setShowSignup(false)} /></Modal.Body>
       </Modal>
-
-      {/* CSS Styles */}
-      <style>
-        {`
-          .menu-item, .menu-title {
-            color: black !important;
-            font-weight: bold;
-          }
-
-          .menu-item:hover, .submenu-item:hover {
-            background-color: #FFD700 !important;
-            color: white !important;
-          }
-
-          .login-btn, .signup-btn {
-            background: #0074D9 !important;
-            color: white !important;
-            font-weight: bold;
-            border: none;
-            padding: 10px 20px;
-            margin-top: 10px;
-            border-radius: 8px;
-          }
-
-          .login-btn:hover, .signup-btn:hover {
-            background: #0056b3 !important;
-          }
-        `}
-      </style>
     </>
   );
 };

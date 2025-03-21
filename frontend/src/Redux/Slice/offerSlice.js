@@ -4,7 +4,6 @@ import axiosInstance from "../../Helper/axiosInstance";
 
 const initialState = {
     offers: [],
-    offer: null,
     loading: false,
     error: null
 };
@@ -14,7 +13,7 @@ export const createOffer = createAsyncThunk("offer/create", async (data, { rejec
     try {
         const res = await axiosInstance.post("/api/offer/create-offer", data);
         toast.success(res?.data?.msg || "Offer created successfully!");
-        return res.data;
+        return res.data.data; // ✅ Ensure correct return
     } catch (error) {
         toast.error(error?.response?.data?.message || "Failed to create offer");
         return rejectWithValue(error?.response?.data);
@@ -25,30 +24,8 @@ export const createOffer = createAsyncThunk("offer/create", async (data, { rejec
 export const getAllOffer = createAsyncThunk("offer/getAll", async (_, { rejectWithValue }) => {
     try {
         const res = await axiosInstance.get("/api/offer/get-all-offer");
-        return res.data;
+        return res.data.data;
     } catch (error) {
-        return rejectWithValue(error?.response?.data);
-    }
-});
-
-// Get Single Offer
-export const getOffer = createAsyncThunk("offer/getOne", async (id, { rejectWithValue }) => {
-    try {
-        const res = await axiosInstance.get(`/api/offer/offer/${id}`);
-        return res.data;
-    } catch (error) {
-        return rejectWithValue(error?.response?.data);
-    }
-});
-
-// Update Offer
-export const updateOffer = createAsyncThunk("offer/update", async ({ id, data }, { rejectWithValue }) => {
-    try {
-        const res = await axiosInstance.put(`/api/offer/update-offer/${id}`, data);
-        toast.success(res?.data?.msg || "Offer updated successfully!");
-        return res.data;
-    } catch (error) {
-        toast.error(error?.response?.data?.message || "Failed to update offer");
         return rejectWithValue(error?.response?.data);
     }
 });
@@ -58,7 +35,7 @@ export const deleteOffer = createAsyncThunk("offer/delete", async (id, { rejectW
     try {
         const res = await axiosInstance.delete(`/api/offer/delete-offer/${id}`);
         toast.success(res?.data?.msg || "Offer deleted successfully!");
-        return res.data;
+        return { success: true, id };
     } catch (error) {
         toast.error(error?.response?.data?.message || "Failed to delete offer");
         return rejectWithValue(error?.response?.data);
@@ -71,57 +48,32 @@ const offerSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(createOffer.pending, (state) => {
-                state.loading = true;
-                state.error = null;
-            })
-            .addCase(createOffer.fulfilled, (state, action) => {
-                state.loading = false;
-                state.offers.push(action.payload); // Add the new offer to the list
-            })
-            .addCase(createOffer.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload;
-            })
-
             .addCase(getAllOffer.pending, (state) => {
                 state.loading = true;
             })
             .addCase(getAllOffer.fulfilled, (state, action) => {
                 state.loading = false;
-                state.offers = action.payload;
+                state.offers = action.payload; // ✅ Correct state update
             })
             .addCase(getAllOffer.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
 
-            .addCase(getOffer.pending, (state) => {
+            // Create Offer
+            .addCase(createOffer.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(getOffer.fulfilled, (state, action) => {
+            .addCase(createOffer.fulfilled, (state, action) => {
                 state.loading = false;
-                state.offer = action.payload;
+                state.offers.push(action.payload); // ✅ Append new offer to list
             })
-            .addCase(getOffer.rejected, (state, action) => {
+            .addCase(createOffer.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
 
-            .addCase(updateOffer.pending, (state) => {
-                state.loading = true;
-            })
-            .addCase(updateOffer.fulfilled, (state, action) => {
-                state.loading = false;
-                state.offers = state.offers.map((offer) =>
-                    offer._id === action.payload._id ? action.payload : offer
-                );
-            })
-            .addCase(updateOffer.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload;
-            })
-
+            // Delete Offer
             .addCase(deleteOffer.pending, (state) => {
                 state.loading = true;
             })
