@@ -28,15 +28,20 @@ const statsData = [
 
 const StatsSection = () => {
   return (
-    <div className="bg-light py-2">
+    <div className="bg-light py-1">
       <div className="container">
         {/* Desktop View: Show Stats in a Row */}
-        <div className="d-none d-md-flex justify-content-center align-items-center stats-container">
+        <div className="d-none d-md-flex flex-wrap justify-content-between align-items-center p-0 shadow-sm stats-container">
           {statsData.map((stat, index) => (
-            <div key={index} className="text-center stat-item">
-              <div>{stat.icon}</div>
+            <div
+              key={index}
+              className="d-flex flex-column align-items-center flex-fill mx-0"
+            >
+              <div className="mb-1">{stat.icon}</div>
               <span className="fw-bold fs-6 text-dark mb-0">{stat.number}</span>
-              <span className="text-muted d-block small">{stat.text}</span>
+              <span className="text-muted" style={{ fontSize: "0.7rem" }}>
+                {stat.text}
+              </span>
             </div>
           ))}
         </div>
@@ -45,25 +50,27 @@ const StatsSection = () => {
         <Carousel
           indicators={false}
           controls={false}
-          interval={3000}
           touch={true}
           className="d-md-none"
         >
           {statsData
-            .reduce((result, item, index, array) => {
-              if (index % 2 === 0) result.push(array.slice(index, index + 2));
-              return result;
+            .reduce((acc, _, index, arr) => {
+              if (index % 2 === 0) acc.push(arr.slice(index, index + 2));
+              return acc;
             }, [])
             .map((pair, index) => (
               <Carousel.Item key={index}>
-                <div className="d-flex justify-content-center">
+                <div className="d-flex justify-content-between px-1 py-0">
                   {pair.map((stat, subIndex) => (
-                    <div key={subIndex} className="text-center stat-item">
-                      <div>{stat.icon}</div>
-                      <span className="fw-bold fs-6 text-dark mb-0">
+                    <div key={subIndex} className="text-center mx-1">
+                      <div className="mb-1">{stat.icon}</div>
+                      <span className="fw-bold fs-6 text-dark mb-0 d-block">
                         {stat.number}
                       </span>
-                      <span className="text-muted d-block small">
+                      <span
+                        className="text-muted"
+                        style={{ fontSize: "0.7rem" }}
+                      >
                         {stat.text}
                       </span>
                     </div>
@@ -81,22 +88,8 @@ const StatsSection = () => {
           border: 1px solid #ddd;
           box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
           text-align: center;
-          padding: 5px;
-          display: flex;
-          gap: 10px;
-          max-width: 600px;
-          margin: 0 auto;
-        }
-
-        .stat-item {
-          width: 140px; /* Compact width */
-          padding: 5px;
-        }
-
-        @media (max-width: 768px) {
-          .stat-item {
-            width: 50%; /* Mobile view: 2 stats per row */
-          }
+          min-height: 35px;
+          padding: 1px;
         }
       `}</style>
     </div>
