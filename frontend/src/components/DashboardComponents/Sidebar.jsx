@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import SidebarItem from "./SidebarItem";
 import { menuItems } from "../../Contants";
+import { Home } from "lucide-react"; // ✅ Fix: Import Home icon
 
 const Sidebar = ({ isOpen }) => {
   const [expandedMenu, setExpandedMenu] = useState(null);
@@ -41,12 +42,10 @@ const Sidebar = ({ isOpen }) => {
           }}
         >
           Hously-
-          <span style={{
-            color: "#fff",
-            fontWeight: "bold",
-          }}>Dashboard</span>
+          <span style={{ color: "#fff", fontWeight: "bold" }}>Dashboard</span>
         </h5>
-        {!isOpen && <Home size={24} />}
+        {!isOpen && <Home size={24} color="white" />}{" "}
+        {/* ✅ Show icon when collapsed */}
       </div>
 
       <ul
